@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import main from '../views/main.vue'
+import get_started from '../views/auth/get_started.vue'
 
 Vue.use(VueRouter)
 
@@ -8,6 +9,10 @@ const routes = [
   {
     path: '/',
     component: main
+  },
+  {
+    path:'/get-started',
+    component: get_started
   }
 ]
 
