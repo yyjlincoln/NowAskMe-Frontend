@@ -37,15 +37,51 @@
                 class="shadow my-10 w-full flex items-center justify-center border text-base font-medium rounded-md bg-gray-200"
               >
                 <input
-                  class="relative w-full h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600"
+                  class="relative w-full h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                  type="email"
+                  placeholder="Your email address"
+                  @input="checkEmail"
+                  v-model="email"
                 />
+                <div class="mx-2">
+                  <div v-if="verification_status == 'checkemail'">
+                    <svg class="animate-spin h-7 w-7 mr-3" viewBox="0 0 24 24">
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div v-if="verification_status == 'allowcontinue'">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="green"
+                    >
+                      <path
+                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="sm:text-center lg:text-left">
               <p
                 class="mt-3 text-base text-gray-700 sm:mx-auto md:mt-5 md:text-xl"
               >
-                By continuing, you agrees to our
+                By continuing, you agree to our
                 <a class="underline" href="/legal/privacy">privacy policy</a>
                 and
                 <a class="underline" href="/legal/eua">end user agreement</a>
@@ -55,11 +91,18 @@
               >
                 <div class="rounded-md shadow">
                   <a
-                    href="/login"
-                    class="w-full flex items-center justify-center px-5 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-lg py-4"
-                    @click="githubredirect = true"
+                    href="#"
+                    class="w-full flex items-center justify-center px-5 border border-transparent text-base font-medium rounded-md text-white bg-gray-400 text-lg py-4"
+                    @click.prevent="nextAction"
+                    :class="
+                      verification_status == 'allowcontinue'
+                        ? 'bg-indigo-600 hover:bg-indigo-700'
+                        : ''
+                    "
                   >
-                    Get Started
+                    {{ register == -1 ? "Continue" : "" }}
+                    {{ register == 0 ? "Sign in" : "" }}
+                    {{ register == 1 ? "Register" : "" }}
                   </a>
                 </div>
               </div>
@@ -91,10 +134,48 @@
 
 
 <script>
+// import axios from 'axios'
 export default {
   data: () => ({
     menu: false,
     githubredirect: false,
+    verification_status: "",
+    timer: null,
+    register: -1, // 0 - Sign in; 1 - Register; -1 - Undetermined
+    email: "",
   }),
+  methods: {
+    checkEmail() {
+      // Inspired: https://stackoverflow.com/questions/49711449/how-to-delay-keyup-handler-in-vue-js.
+      // Fully understood.
+      this.verification_status = "checkemail";
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      this.timer = setTimeout(() => {
+        // axios.get('')
+        this.register = 1;
+        this.verification_status = "allowcontinue";
+      }, 1000);
+    },
+    nextAction() {
+      if (this.register == 0) {
+        this.$router.push({
+          path: "/login",
+          params: {
+            email: this.email,
+          },
+        });
+      } else if (this.register == 1) {
+        this.$router.push({
+          path: "/register",
+          params: {
+            email: this.email,
+          },
+        });
+      }
+    },
+  },
 };
 </script>
