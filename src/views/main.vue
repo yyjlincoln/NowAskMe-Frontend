@@ -39,12 +39,12 @@
                   <a
                     href="/get-started"
                     class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 md:py-4 md:text-lg md:px-10"
-                    @click="githubredirect = true"
+                    @click.prevent="getstarted_action"
                   >
                     <svg
                       class="animate-spin h-5 w-5 mr-3 ..."
                       viewBox="0 0 24 24"
-                      v-if="githubredirect"
+                      v-if="getstarted"
                     >
                       <circle
                         class="opacity-25"
@@ -103,7 +103,15 @@
 export default {
   data: () => ({
     menu: false,
-    githubredirect: false,
+    getstarted: false,
   }),
+  methods:{
+    getstarted_action(){
+      this.getstarted=true;
+      setTimeout(() => {
+        this.$router.push('/get-started')
+      }, 1000);
+    }
+  }
 };
 </script>
