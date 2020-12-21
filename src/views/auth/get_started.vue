@@ -33,62 +33,67 @@
               </h1>
             </div>
             <div>
-              <div
-                class="shadow my-10 w-full flex items-center justify-center border text-base font-medium rounded-md bg-gray-200"
-              >
-                <input
-                  class="relative w-full h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
-                  type="email"
-                  placeholder="Your email address"
-                  @input="checkEmail"
-                  v-model="email"
-                />
-                <div class="mx-2">
-                  <div v-if="verification_status == 'checkemail'">
-                    <svg class="animate-spin h-7 w-7 mr-3" viewBox="0 0 24 24">
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div v-if="verification_status == 'allowcontinue'">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="green"
-                    >
-                      <path
-                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
-                      />
-                    </svg>
-                  </div>
-                  <div v-if="verification_status == 'incorrectemail'">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="red"
-                    >
-                      <path
-                        d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
-                      />
-                    </svg>
+              <form @submit.capture.prevent="nextAction">
+                <div
+                  class="shadow my-10 w-full flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                >
+                  <input
+                    class="relative w-full h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    type="email"
+                    placeholder="Your email address"
+                    @input="checkEmail"
+                    v-model="email"
+                  />
+                  <div class="mx-2">
+                    <div v-if="verification_status == 'checkemail'">
+                      <svg
+                        class="animate-spin h-7 w-7 mr-3"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div v-if="verification_status == 'allowcontinue'">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="green"
+                      >
+                        <path
+                          d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                        />
+                      </svg>
+                    </div>
+                    <div v-if="verification_status == 'incorrectemail'">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="red"
+                      >
+                        <path
+                          d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
             <div class="sm:text-center lg:text-left">
               <p
@@ -167,6 +172,12 @@ export default {
         this.timer = null;
       }
       this.timer = setTimeout(() => {
+        let reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/;
+        if (!reg.test(this.email)) {
+          this.verification_status = "incorrectemail";
+          this.register = -1;
+          return;
+        }
         // axios.get('')
         this.verification_status = "allowcontinue";
         this.register = 1;
@@ -181,8 +192,8 @@ export default {
       }, 1000);
     },
     nextAction() {
-      if(this.verification_status!="allowcontinue"){
-        return
+      if (this.verification_status != "allowcontinue") {
+        return;
       }
       if (this.register == 0) {
         this.$router.push({
