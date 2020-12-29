@@ -67,11 +67,11 @@
       </div>
     </div>
     <div class="h-fit">
-      <div class="pt-20 px-20">
-        <span class="relative text-5xl block text-gray-700 font-extrabold"
+      <div class="pt-7 px-7 lg:pt-20 lg:px-20">
+        <span class="relative text-4xl md:text-5xl lg:text-6xl block text-gray-700 font-extrabold"
           >Don't know how?</span
         >
-        <span class="text-gradient text-7xl font-extrabold">Simply,</span>
+        <span class="text-gradient text-5xl md:text-6xl lg:text-7xl font-extrabold">Simply,</span>
         <div class="flex justify-center items-center mt-10">
           <div class="pr-5">
             <svg
@@ -99,7 +99,7 @@
             </svg>
           </div>
           <div class="w-full">
-            <span class="text-6xl font-extrabold text-gray-600"
+            <span class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
               >Pack your question</span
             >
           </div>
@@ -129,7 +129,7 @@
             </svg>
           </div>
           <div class="w-full">
-            <span class="text-6xl font-extrabold text-gray-600"
+            <span class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
               >Post it to your friends</span
             >
           </div>
@@ -154,7 +154,7 @@
             </svg>
           </div>
           <div class="w-full">
-            <span class="text-6xl font-extrabold text-gray-600"
+            <span class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
               >Wait for them to reply!</span
             >
           </div>
