@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import main from '../views/main.vue'
 import get_started from '../views/auth/get_started.vue'
 import page_unavailable from '../views/general/page_unavailable.vue'
-
+import register from '../views/auth/register.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,6 +14,10 @@ const routes = [
   {
     path:'/get-started',
     component: get_started
+  },
+  {
+    path:'/register',
+    component: register
   },
   {
     path:'*',

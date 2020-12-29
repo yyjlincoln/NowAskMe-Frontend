@@ -41,6 +41,15 @@
 }
 </style>
 
+<style>
+.text-gradient {
+  background: linear-gradient(90deg, #4e46e5, #9c2f9e);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+</style>
+
 <script>
 import "tailwindcss/tailwind.css";
 
@@ -49,7 +58,7 @@ export default {
   components: {},
   data: () => ({
     transition_name: "fade",
-    lastPath: '/'
+    lastPath: "/",
   }),
   watch: {
     // $route: function (before, after) {

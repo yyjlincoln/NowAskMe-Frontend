@@ -18,32 +18,83 @@
           </div>
 
           <main
-            class="h-fit w-screen mt-10 mx-auto px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mx-10 lg:mt-20 md:max-w-4xl"
+            class="h-screen w-screen mt-10 mx-auto px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mx-10 lg:mt-20 md:max-w-4xl"
           >
             <div class="sm:text-center lg:text-left">
               <span class="text-3xl tracking-tight font-extrabold text-gray-900"
-                >Get started</span
+                >We've sent you an email</span
               >
               <h1
-                class="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl"
+                class="text-4xl tracking-tight font-extrabold sm:text-4xl md:text-5xl"
               >
                 <span class="block text-indigo-600"
-                  >Please enter your email address</span
+                  >Please enter the OTP (One-Time Password) below</span
                 >
               </h1>
             </div>
             <div>
               <form @submit.capture.prevent="nextAction">
                 <div
-                  class="shadow my-10 w-full flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                  class="shadow my-10 flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
                 >
                   <input
-                    class="relative w-full h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    class="relative w-20 h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
                     type="email"
-                    placeholder="Your email address"
-                    @input="checkEmail"
+                    placeholder=""
                     v-model="email"
                   />
+                </div>
+                <div
+                  class="shadow my-10 flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                >
+                  <input
+                    class="relative w-20 h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    type="email"
+                    placeholder=""
+                    v-model="email"
+                  />
+                </div>
+                <div
+                  class="shadow my-10 flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                >
+                  <input
+                    class="relative w-20 h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    type="email"
+                    placeholder=""
+                    v-model="email"
+                  />
+                </div>
+                <div
+                  class="shadow my-10 flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                >
+                  <input
+                    class="relative w-20 h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    type="email"
+                    placeholder=""
+                    v-model="email"
+                  />
+                </div>
+                <div
+                  class="shadow my-10 flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                >
+                  <input
+                    class="relative w-20 h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    type="email"
+                    placeholder=""
+                    v-model="email"
+                  />
+                </div>
+                <div
+                  class="shadow my-10 flex items-center justify-center border text-base font-medium rounded-md bg-gray-200 ontline-none"
+                >
+                  <input
+                    class="relative w-20 h-20 rounded-md bg-transparent text-left font-xl font-extrabold px-3 text-4xl text-gray-600 ontline-none"
+                    type="email"
+                    placeholder=""
+                    v-model="email"
+                  />
+                </div>
+                <div>
                   <div class="mx-2">
                     <div v-if="verification_status == 'checkemail'">
                       <svg
@@ -96,14 +147,6 @@
               </form>
             </div>
             <div class="sm:text-center lg:text-left">
-              <p
-                class="mt-3 text-base text-gray-700 sm:mx-auto md:mt-5 md:text-xl"
-              >
-                By continuing, you agree to our
-                <a class="underline" href="/legal/privacy">privacy policy</a>
-                and
-                <a class="underline" href="/legal/eua">end user agreement</a>
-              </p>
               <div
                 class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
               >
