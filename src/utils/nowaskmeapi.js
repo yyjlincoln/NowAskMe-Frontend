@@ -20,7 +20,10 @@ export default {
                 localStorage.setItem("namuser", JSON.stringify(this.user))
             },
             pullCredentials() {
-                this.user = JSON.parse(localStorage.getItem("namuser"))
+                this.user = {
+                    ...this.user, ...JSON.parse(localStorage.getItem("namuser"))
+                }
+
             },
             async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2 } = {}) {
                 if (authenticate == true) {
@@ -72,14 +75,14 @@ export default {
 
             },
             useractions: {
-                async getProfile(){
+                async getProfile() {
                     let res = await Vue.prototype.$nam.requestAPI('/user/get_profile')
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
-                    Vue.prototype.$nam.user = {...Vue.prototype.$nam.user, ...res}
+                    Vue.prototype.$nam.user = { ...Vue.prototype.$nam.user, ...res }
                     Vue.prototype.$nam.storeCredentials()
-                    return res  
+                    return res
                 },
                 async updateProfile({ name = null, description = null, userid = null } = {}) {
                     let res = await Vue.prototype.$nam.requestAPI('/user/update_profile', {
@@ -191,7 +194,7 @@ export default {
             }
         }
         Vue.mixin({
-            mounted() {
+            created() {
                 this.$nam.pullCredentials()
             },
             data: () => ({
