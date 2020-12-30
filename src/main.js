@@ -13,6 +13,7 @@ import 'vuesax/dist/vuesax.css' //Vuesax styles
 Vue.use(Vuesax, {
   // options here
 })
+
 import nowaskmeapi from "./utils/nowaskmeapi.js"
 
 Vue.use(nowaskmeapi)

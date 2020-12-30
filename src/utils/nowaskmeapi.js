@@ -2,19 +2,69 @@
 import vuesax from "vuesax"
 import axios from "axios"
 
+
 vuesax // Vuesax must be installed.
 
-export default {
-    install(Vue, options) {
+function GenerateInstall() {
+    return function (Vue, options) {
         options
         Vue.prototype.$nam = {
             // server: "http://localhost:5000",
             server: "https://apis.nowask.me",
+            that: null,
+            lastPath: '',
             user: {
                 uuid: null,
                 token: null,
                 name: null,
                 scope: null
+            },
+            initialized: false,
+            async init(that) {
+                if (this.initialized==true) {
+                    return
+                }
+                // Allow only one initialization
+                this.initialized = true
+                this.that = that
+                await this.pullCredentials()
+                await this.useractions.getProfile({
+                    handle_error: false
+                })
+            },
+            async onRouteChange(prev, next) {
+                // console.log('Route changed!', prev, next)
+                prev
+                const authentication_free = [
+                    '/',
+                    '/get-started',
+                    '/register'
+                ]
+                if (!authentication_free.includes(next)) {
+                    await this.useractions.getProfile()
+                }
+            },
+            async watch(that) {
+                // Watches for change in this, and determine whether it was "app first launch" (init) 
+                // or "change in route" (onRouteChange) or attach to other components (discard)
+
+                if (that.$el.id == "app") {
+                    // Watch if it was the first mount.
+                    // ONLY with the first mount will that be mounted to #app
+                    console.log("App first mounted")
+                    await this.init(that)
+                }
+                try {
+                    // Watch for the new route, if there is any, and compare it with last path.
+                    // ONLY invoke route change AFTER the app is initialized, otherwise onRouteChange handler
+                    // will try to read and use functions / data that will only be there AFTER initialization.
+                    if (that.$route.path != this.lastPath && that.$route.path != "" && this.initialized) {
+                        this.onRouteChange(this.lastPath, that.$route.path)
+                        this.lastPath = that.$route.path
+                    }
+                } catch (e) {
+                    console.warn(e)
+                }
             },
             storeCredentials() {
                 localStorage.setItem("namuser", JSON.stringify(this.user))
@@ -50,21 +100,19 @@ export default {
                 }
                 if (handle_error == true) {
                     if (res.data.code < 0) {
-                        if (res.data.code in [-107, -108, -109]) {
-                            this.notification.failed('Please login again (' + String(res.data.code) + ')', res.data.message)
-                            Vue.prototype.$router.push({
-                                name: 'login'
-                            })
-                        } else if (res.data.code in [-110]) {
-                            Vue.prototype.$router.push({
-                                name: 'login'
-                            })
+                        if ([-107, -108, -109].includes(res.data.code) == true) {
+                            this.that.$router.push('/get-started')
+                            Vue.prototype.$nam.notification.failed('Please login again (' + String(res.data.code) + ')', res.data.message)
+                            // [TODO] Add query so after auth it returns
+                        } else if ([-110].includes(res.data.code) == true) {
+                            this.that.$router.push('/get-started')
                             this.notification.failed('Sorry, something unexpected happened. Please try to login again (' + String(res.data.code) + ')', res.data.message)
-                        } else if (res.data.code in [-111]) {
+                        } else if ([-111].includes(res.data.code) == true) {
                             this.notification.failed("Access is denied.", "You don't have sufficient permission to complete this action. You are missing: " + String(res.data.scope))
+                        } else {
+                            this.notification.failed('Failed to complete the request (' + String(res.data.code) + ')', res.data.message)
                         }
                         // Do something
-                        this.notification.failed('Failed to complete the request (' + String(res.data.code) + ')', res.data.message)
                         return undefined
                     } else {
                         return res.data
@@ -75,8 +123,8 @@ export default {
 
             },
             useractions: {
-                async getProfile() {
-                    let res = await Vue.prototype.$nam.requestAPI('/user/get_profile')
+                async getProfile(options) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/get_profile', options)
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
@@ -194,12 +242,16 @@ export default {
             }
         }
         Vue.mixin({
-            created() {
-                this.$nam.pullCredentials()
+            mounted() {
+                this.$nam.watch(this)
             },
             data: () => ({
 
             })
         })
     }
+}
+
+export default {
+    install: GenerateInstall()
 }
