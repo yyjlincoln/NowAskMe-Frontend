@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import main from '../views/main.vue'
 import get_started from '../views/auth/get_started.vue'
 import page_unavailable from '../views/general/page_unavailable.vue'
-import register from '../views/auth/register.vue'
+import email_verification from '../views/auth/email_verification.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,8 +16,9 @@ const routes = [
     component: get_started
   },
   {
-    path:'/register',
-    component: register
+    name: 'email_verification',
+    path:'/email_verification',
+    component: email_verification
   },
   {
     path:'*',

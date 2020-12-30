@@ -43,6 +43,8 @@ export default {
                 if (handle_error == true) {
                     if (res.data.code < 0) {
                         // Do something
+                        this.notification.failed('Failed to complete the request ('+String(res.data.code)+')',res.data.message)
+                        return undefined
                     } else {
                         return res.data
                     }
@@ -64,7 +66,34 @@ export default {
                         throw new Error("Could not complete the request")
                     }
                     return res.exist
-
+                },
+                async requestOTP(email) {
+                    let res = await Vue.prototype.$nam.requestAPI('/auth/send_email', {
+                        authenticate: false,
+                        params: {
+                            email
+                        }
+                    })
+                    console.log(res)
+                    if (res == null || res == undefined) {
+                        throw new Error("Could not complete the request")
+                    }
+                    return res.sent
+                },
+                async checkOTP(email, otp) {
+                    let res = await Vue.prototype.$nam.requestAPI('/auth/login/email', {
+                        authenticate: false,
+                        params: {
+                            email,
+                            otp
+                        }
+                    })
+                    Vue.prototype.$nam.user = res
+                    console.log(res)
+                    if (res == null || res == undefined) {
+                        throw new Error("Could not complete the request")
+                    }
+                    return res.sent
                 },
             },
             notification: {

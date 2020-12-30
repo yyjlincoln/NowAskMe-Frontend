@@ -200,7 +200,7 @@ export default {
             this.verification_status = "allowcontinue";
           })
           .catch((e) => {
-            console.log(e)
+            console.log(e);
             this.verification_status = "incorrectemail";
           });
       }, 1000);
@@ -209,21 +209,13 @@ export default {
       if (this.verification_status != "allowcontinue") {
         return;
       }
-      if (this.register == 0) {
-        this.$router.push({
-          path: "/login",
-          params: {
-            email: this.email,
-          },
-        });
-      } else if (this.register == 1) {
-        this.$router.push({
-          path: "/register",
-          params: {
-            email: this.email,
-          },
-        });
-      }
+      this.$router.push({
+        name: "email_verification",
+        params: {
+          email: this.email,
+          register: this.register == 0 ? false : true,
+        },
+      });
     },
   },
 };

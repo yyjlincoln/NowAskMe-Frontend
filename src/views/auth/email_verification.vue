@@ -29,7 +29,7 @@
                   type="text"
                   maxlength="1"
                   placeholder=""
-                  v-model="otp[1]"    
+                  v-model="otp[1]"
                   @keyup="onOTPInput"
                 />
                 <input
@@ -38,7 +38,6 @@
                   maxlength="1"
                   placeholder=""
                   v-model="otp[2]"
-                  
                   @keyup="onOTPInput"
                 />
                 <input
@@ -47,7 +46,6 @@
                   maxlength="1"
                   placeholder=""
                   v-model="otp[3]"
-                  
                   @keyup="onOTPInput"
                 />
                 <input
@@ -56,7 +54,6 @@
                   maxlength="1"
                   placeholder=""
                   v-model="otp[4]"
-                  
                   @keyup="onOTPInput"
                 />
                 <input
@@ -64,7 +61,6 @@
                   type="text"
                   maxlength="1"
                   placeholder=""
-                  
                   @keyup="onOTPInput"
                   @input="checkOTP"
                   v-model="otp[5]"
@@ -162,43 +158,68 @@ export default {
   data: () => ({
     verification_status: "",
     timer: null,
-    otp: ['','','','','',''],
+    otp: ["", "", "", "", "", ""],
+    email: null,
+    register: false,
   }),
+  mounted() {
+    if (!this.$route.params.email) {
+      this.$nam.notification.failed(
+        "Context lost! Please try again",
+        "We could not find the email that you've just entered."
+      );
+      this.$router.push("/get-started");
+    }
+    this.email = this.$route.params.email
+    this.register = this.$route.params.register
+    this.$nam.auth.requestOTP(this.email)
+  },
   methods: {
     onOTPInput(event) {
-        if (event.code == "Backspace") {
+      if (event.code == "Backspace") {
+        try {
           event.target.previousElementSibling.focus();
-      } else if (event.target.value != "") {
-        event.target.nextElementSibling.focus();
-      }
-      return true
-    //   console.log(event);
-    },
-    checkOTP(event){
-        
-        if(event.data!=null){
-            this.$nam.notification.success("OTP is "+this.otp.join(''),"Yey")
+        } catch {
+          // Nothing
         }
+      } else if (event.target.value != "") {
+        try {
+          event.target.nextElementSibling.focus();
+        } catch {
+          // Nothing
+        }
+      }
+      return true;
+      //   console.log(event);
+    },
+    checkOTP(event) {
+      if (event.data != null) {
+        this.verification_status = "checkingotp";
+        this.$nam.auth
+          .checkOTP(this.email, this.otp.join(''))
+          .then((res) => {
+            this.$nam.success(
+              "Welcome back, " + res.name,
+              "You will be redirected soon."
+            );
+            this.$router.push("/dashboard");
+          })
+          .catch(() => {
+            this.verification_status = "incorrectotp";
+          });
+      }
     },
     nextAction() {
       if (this.verification_status != "correctotp") {
         return;
       }
-      if (this.register == 0) {
-        this.$router.push({
-          path: "/login",
-          params: {
-            email: this.email,
-          },
-        });
-      } else if (this.register == 1) {
-        this.$router.push({
-          path: "/register",
-          params: {
-            email: this.email,
-          },
-        });
-      }
+      this.$router.push({
+        name: "email_verification",
+        params: {
+          email: this.email,
+          register: this.register == 0 ? false : true,
+        },
+      });
     },
   },
 };
