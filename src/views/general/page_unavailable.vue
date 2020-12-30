@@ -23,6 +23,8 @@
             <div class="sm:text-center lg:text-left">
                 <span class="text-5xl tracking-tight font-extrabold text-gray-900">Error 403/404</span>
                 <span class="text-7xl tracking-tight font-extrabold block text-indigo-600">This page is unavailable or could not be found.</span>
+                <span class="text-sm tracking-tight font-extrabold block text-gray-500 mt-10">Diagnostics:</span>
+                <span class="text-sm tracking-tight font-extrabold block text-gray-500">uuid: {{$nam.user.uuid}}, token: {{$nam.user.token}}, name: {{$nam.user.name}}</span>
             </div>
           </main>
         </div>

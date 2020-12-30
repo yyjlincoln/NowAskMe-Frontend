@@ -172,7 +172,9 @@ export default {
     }
     this.email = this.$route.params.email
     this.register = this.$route.params.register
-    this.$nam.auth.requestOTP(this.email)
+    this.$nam.auth.requestOTP(this.email).then(()=>{
+      this.$nam.notification.success("Email sent!","Please check your inbox.")
+    })
   },
   methods: {
     onOTPInput(event) {
@@ -195,32 +197,39 @@ export default {
     checkOTP(event) {
       if (event.data != null) {
         this.verification_status = "checkingotp";
-        this.$nam.auth
-          .checkOTP(this.email, this.otp.join(''))
-          .then((res) => {
-            this.$nam.success(
-              "Welcome back, " + res.name,
-              "You will be redirected soon."
-            );
-            this.$router.push("/dashboard");
-          })
-          .catch(() => {
-            this.verification_status = "incorrectotp";
-          });
+        if(this.register==true){
+          this.$nam.auth
+            .register(this.email, this.otp.join(''))
+            .then((res) => {
+              this.verification_status="correctotp"
+              this.$nam.notification.success(
+                "Welcome back, " + res.name,
+                "You will be redirected soon."
+              );
+              this.$router.push("/dashboard");            
+            })
+            .catch((e) => {
+              console.error(e)
+              this.verification_status = "incorrectotp";
+            });
+        } else {          
+          this.$nam.auth
+            .checkOTP(this.email, this.otp.join(''))
+            .then((res) => {
+              this.verification_status="correctotp"
+              this.$nam.notification.success(
+                "Welcome back, " + res.name,
+                "You will be redirected soon."
+              );
+              this.$router.push("/dashboard");            
+            })
+            .catch((e) => {
+              console.error(e)
+              this.verification_status = "incorrectotp";
+            });
+        }
       }
-    },
-    nextAction() {
-      if (this.verification_status != "correctotp") {
-        return;
-      }
-      this.$router.push({
-        name: "email_verification",
-        params: {
-          email: this.email,
-          register: this.register == 0 ? false : true,
-        },
-      });
-    },
+    }
   },
 };
 </script>
