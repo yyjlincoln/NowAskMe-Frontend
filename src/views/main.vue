@@ -210,7 +210,6 @@
 <script>
 export default {
   data: () => ({
-    menu: false,
     getstarted: false,
   }),
   methods: {

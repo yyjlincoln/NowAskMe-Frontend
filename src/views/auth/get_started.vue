@@ -152,7 +152,6 @@
 
 
 <script>
-import axios from "axios";
 export default {
   data: () => ({
     menu: false,
@@ -162,10 +161,20 @@ export default {
     register: -1, // 0 - Sign in; 1 - Register; -1 - Undetermined
     email: "",
   }),
+  mounted() {
+    
+  },
   methods: {
-    checkEmail() {
-      // Inspired: https://stackoverflow.com/questions/49711449/how-to-delay-keyup-handler-in-vue-js.
-      // Fully understood.
+    async checkEmail() {
+      // Inspired: https://stackoverflow.com/questions/49711449/how-to-delay-keyup-handler-in-vue-js. Fully understood.
+      // Three states:
+      // this.register = -1; // Undetermined
+      // this.register = 0; // Login
+      // this.register = 1; // Register
+      // Three states:
+      // this.verification_status = "incorrectemail";
+      // this.verification_status = "allowcontinue";
+      // this.verification_status = "checkemail";
       this.verification_status = "checkemail";
       if (this.timer) {
         clearTimeout(this.timer);
@@ -178,32 +187,10 @@ export default {
           this.register = -1;
           return;
         }
-        // [TODO] This is going to be replaced using a global component that globally handle those exceptions
-        axios
-          .get("https://apis.nowask.me/auth/check_email", {
-            params: {
-              email: this.email,
-            },
-          })
-          .then((res) => {
-            if (res.data.code == 0) {
-              if (res.data.exist == true) {
-                this.verification_status = "allowcontinue";
-                this.register = 0;
-              } else {
-                this.verification_status = "allowcontinue";
-                this.register = 1;
-              }
-            }
-          });
-        // Three states:
-        // this.register = -1; // Undetermined
-        // this.register = 0; // Login
-        // this.register = 1; // Register
-        // Three states:
-        // this.verification_status = "incorrectemail";
-        // this.verification_status = "allowcontinue";
-        // this.verification_status = "checkemail";
+        this.$nam.auth.checkEmail(this.email).then((result) => {
+          this.register = result? 0 : 1;
+          this.verification_status = "allowcontinue";
+        });
       }, 1000);
     },
     nextAction() {
