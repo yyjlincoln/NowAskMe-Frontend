@@ -16,7 +16,7 @@ export default {
                 scope: null
             },
             ...JSON.parse(localStorage.getItem("namapi")),
-            async requestAPI(route, { params = {}, authenticate = true, handle_error = true } = {}) {
+            async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2 } = {}) {
                 if (authenticate == true) {
                     params.uuid = this.uuid
                     params.token = this.token
@@ -30,11 +30,21 @@ export default {
                 } catch (e) {
                     this.logging.error(e)
                     this.notification.failed('Check your internet connection', 'We could not contact our server due to an internet issue (' + String(e) + ')')
-                    return
+                    if (handle_error == true && max_retry > 0) {
+                        return await this.requestAPI(route, {
+                            params,
+                            authenticate,
+                            handle_error,
+                            max_retry: max_retry - 1
+                        })
+                    }
+                    return undefined
                 }
                 if (handle_error == true) {
                     if (res.data.code < 0) {
                         // Do something
+                    } else {
+                        return res.data
                     }
                 } else {
                     return res.data
@@ -43,12 +53,18 @@ export default {
             },
             auth: {
                 async checkEmail(email) {
-                    return await Vue.prototype.$nam.requestAPI('/auth/check_email', {
+                    let res = await Vue.prototype.$nam.requestAPI('/auth/check_email', {
                         authenticate: false,
                         params: {
                             email
                         }
-                    }).exist
+                    })
+                    console.log(res)
+                    if (res == null || res == undefined) {
+                        throw new Error("Could not complete the request")
+                    }
+                    return res.exist
+
                 },
             },
             notification: {
@@ -58,7 +74,7 @@ export default {
                         text: message,
                         sticky: true,
                         position: "top-right",
-                        color: "green",
+                        color: "success",
                         duration: 5000,
                         progress: 'auto'
                     })
