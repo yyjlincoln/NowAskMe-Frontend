@@ -210,7 +210,7 @@ export default {
         return;
       }
       this.$router.push({
-        name: "email_verification",
+        name: "verification",
         params: {
           email: this.email,
           register: this.register == 0 ? false : true,

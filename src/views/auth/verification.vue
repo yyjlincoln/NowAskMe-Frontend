@@ -206,7 +206,7 @@ export default {
                 "Welcome back, " + res.name,
                 "You will be redirected soon."
               );
-              this.$router.push("/dashboard");            
+              this.$router.push("/setup");            
             })
             .catch((e) => {
               console.error(e)
