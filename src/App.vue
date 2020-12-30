@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,

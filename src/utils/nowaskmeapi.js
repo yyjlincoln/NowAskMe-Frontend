@@ -21,7 +21,7 @@ function GenerateInstall() {
             },
             initialized: false,
             async init(that) {
-                if (this.initialized==true) {
+                if (this.initialized == true) {
                     return
                 }
                 // Allow only one initialization
@@ -36,13 +36,25 @@ function GenerateInstall() {
                 // console.log('Route changed!', prev, next)
                 prev
                 const authentication_free = [
-                    '/',
-                    '/get-started',
-                    '/register'
+                    '^/$',
+                    '^/get-started$',
+                    '^/register$',
+                    '^/verification$',
+                    '^/login/*',
+                    '^/legal/*'
+                    // RegExp: ^ - Nothing before; $ - Nothing after.
                 ]
-                if (!authentication_free.includes(next)) {
-                    await this.useractions.getProfile()
+                for (var i = 0; i < authentication_free.length; i++) {
+                    try {
+                        if (new RegExp(authentication_free[i]).test(next)) {
+                            return
+                        }
+                    } catch {
+                        // error
+                    }
                 }
+                await this.useractions.getProfile()
+
             },
             async watch(that) {
                 // Watches for change in this, and determine whether it was "app first launch" (init) 
@@ -62,8 +74,8 @@ function GenerateInstall() {
                         this.onRouteChange(this.lastPath, that.$route.path)
                         this.lastPath = that.$route.path
                     }
-                } catch (e) {
-                    console.warn(e)
+                } catch {
+                    // Not handelling
                 }
             },
             storeCredentials() {
@@ -76,6 +88,7 @@ function GenerateInstall() {
 
             },
             async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2 } = {}) {
+                this.pullCredentials()
                 if (authenticate == true) {
                     params.uuid = this.user.uuid
                     params.token = this.user.token
@@ -202,13 +215,27 @@ function GenerateInstall() {
                     }
                     return res
                 },
-                async checkScope() {
-                    let res = await Vue.prototype.$nam.requestAPI('/auth/check_scope')
+                async checkScope(options) {
+                    let res = await Vue.prototype.$nam.requestAPI('/auth/check_scope', options)
                     if (res == null || res == undefined) {
                         Vue.prototype.notification.failed("Could not verify your identity with our server", "You might have logged out, or your login status has expired, or you've been disconnected from the internet. Please try again or log in again.")
                         throw new Error('Could not complete the request')
                     }
                     return res.scope
+                },
+                async checkLoginStatus() {
+                    try {
+
+                        let res = await this.checkScope({
+                            handle_error: false
+                        })
+                        if (res) {
+                            console.log(res)
+                            return true
+                        }
+                    } catch {
+                        return false
+                    }
                 }
             },
             notification: {

@@ -88,9 +88,6 @@ export default {
     userid: "",
     done: false,
   }),
-    created(){
-      console.log("this",this)
-    },
   methods: {
     update_profile() {
       if (this.done) {
