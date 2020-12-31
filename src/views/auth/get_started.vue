@@ -200,6 +200,7 @@
 import namText from "../../components/nam-text.vue";
 import namPage from "../../components/nam-page.vue";
 import NamTools from "../../components/nam-tools.vue";
+// import { gsap } from "gsap";
 export default {
   components: { namText, namPage, NamTools },
   data: () => ({
@@ -213,6 +214,10 @@ export default {
   }),
   mounted() {
     this.checkLoginStatus();
+    // gsap.from("#title_animate", {
+    //   opacity: 0,
+    //   duration: 3,
+    // });
   },
   methods: {
     async checkEmail() {

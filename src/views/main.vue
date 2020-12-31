@@ -3,25 +3,38 @@
     <div
       class="h-screen w-screen flex-col flex justify-center items-center flex overflow-scroll"
     >
-      <div class="w-screen h-screen mt-0 absolute" style="z-index: -2">
+      <div
+        class="w-screen h-screen mt-0 absolute"
+        style="z-index: -2"
+        id="background_animate"
+      >
         <div class="w-screen h-screen bg-white opacity-50 absolute"></div>
         <img
           class="object-cover w-screen h-screen"
           src="https://images.unsplash.com/photo-1566125882500-87e10f726cdc"
         />
       </div>
-      <div class="relative mx-auto text-center align-middle py-10">
-        <span
-          class="relative text-5xl md:text-6xl lg:text-7xl block text-gray-800 font-extrabold"
-          >Got a Question?</span
-        >
-        <span
-          class="relative text-6xl md:text-7xl lg:text-8xl block font-extrabold text-gradient"
-          >Ask me, now!</span
-        >
+      <div
+        id="title_animate"
+        class="relative mx-auto text-center align-middle py-10"
+      >
+        <div class="overflow-hidden">
+          <span
+            class="relative text-5xl md:text-6xl lg:text-7xl block text-gray-800 font-extrabold"
+            >Got a Question?</span
+          >
+        </div>
+        <div class="overflow-hidden">
+          <span
+            class="relative text-6xl md:text-7xl lg:text-8xl block font-extrabold text-gradient overflow-hidden"
+            >Ask me, now!</span
+          >
+        </div>
       </div>
+
       <!-- Buttons -->
       <div
+        id="buttons_animate"
         class="flex flex-col w-full max-w-sm sm:flex-row sm:w-auto sm:px-auto sm:max-w-lg"
       >
         <div class="rounded-md shadow">
@@ -69,10 +82,14 @@
     </div>
     <div class="h-fit">
       <div class="pt-7 px-7 lg:pt-20 lg:px-20">
-        <span class="relative text-4xl md:text-5xl lg:text-6xl block text-gray-700 font-extrabold"
+        <span
+          class="relative text-4xl md:text-5xl lg:text-6xl block text-gray-700 font-extrabold"
           >Don't know how?</span
         >
-        <span class="text-gradient text-5xl md:text-6xl lg:text-7xl font-extrabold">Simply,</span>
+        <span
+          class="text-gradient text-5xl md:text-6xl lg:text-7xl font-extrabold"
+          >Simply,</span
+        >
         <div class="flex justify-center items-center mt-10">
           <div class="pr-5">
             <svg
@@ -100,7 +117,8 @@
             </svg>
           </div>
           <div class="w-full">
-            <span class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
+            <span
+              class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
               >Pack your question</span
             >
           </div>
@@ -130,7 +148,8 @@
             </svg>
           </div>
           <div class="w-full">
-            <span class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
+            <span
+              class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
               >Post it to your friends</span
             >
           </div>
@@ -155,7 +174,8 @@
             </svg>
           </div>
           <div class="w-full">
-            <span class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
+            <span
+              class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-600"
               >Wait for them to reply!</span
             >
           </div>
@@ -204,11 +224,36 @@
 
 
 <script>
-import NamFooter from '../components/nam-footer.vue'
+import NamFooter from "../components/nam-footer.vue";
+import { gsap } from "gsap";
+
 export default {
   data: () => ({
     getstarted: false,
   }),
+  mounted() {
+    gsap.from("#background_animate", 1.8, {
+      delay: 0,
+      opacity: 0,
+    });
+    gsap.from("#background_animate div", 5, {
+      delay: 0,
+      opacity: 1,
+    });
+    gsap.from("#buttons_animate div", 0.8, {
+      delay: 1.8,
+      opacity: 0,
+    });
+    gsap.from("#title_animate span", 1.8, {
+      delay: 1,
+      y: 200,
+      ease: "power4.out",
+      skewY: 20,
+      stagger: {
+        amount: 0.4,
+      },
+    });
+  },
   methods: {
     getstarted_action() {
       this.getstarted = true;
@@ -217,8 +262,8 @@ export default {
       }, 1000);
     },
   },
-  components:{
-    NamFooter
-  }
+  components: {
+    NamFooter,
+  },
 };
 </script>
