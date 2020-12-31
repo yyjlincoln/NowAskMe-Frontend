@@ -1,10 +1,13 @@
 <template>
   <div>
+    <!-- Deleted justify-center -->
     <div
-      class="h-hit mt-5 overflow-scroll w-screen flex min-h-screen flex-col justify-center py-10"
-      :class="unbounded ? '' : 'max-w-6xl'"
+      class="h-hit overflow-scroll min-w-screen flex min-h-screen flex-col py-10 pt-15"
+      :class="String(unbounded ? '' : 'max-w-6xl') + ' ' + String(centered?'justify-center':'')"
     >
-      <div class="mx-5 px-5 md:mx-10 md:px-10 lg:mx-20 lg:px-20 flex flex-col">
+      <div
+        class="mt-10 mx-5 px-5 md:mx-10 md:px-10 lg:mx-20 lg:px-20 flex flex-col"
+      >
         <slot></slot>
       </div>
     </div>
@@ -13,13 +16,14 @@
 
 <script>
 export default {
-  data: () => ({
-
-  }),
+  data: () => ({}),
   props: {
     unbounded: {
       default: false,
     },
+    centered:{
+      default: false
+    }
   },
 };
 </script>

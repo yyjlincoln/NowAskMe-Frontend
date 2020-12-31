@@ -86,8 +86,13 @@ function GenerateInstall() {
                 }
             },
             pullCredentials() {
-                this.user = {
-                    ...this.user, ...JSON.parse(localStorage.getItem("namuser"))
+                try {
+
+                    this.user = {
+                        ...this.user, ...JSON.parse(localStorage.getItem("namuser"))
+                    }
+                } catch {
+                    localStorage.setItem("namuser", "{}")
                 }
 
             },
@@ -240,6 +245,11 @@ function GenerateInstall() {
                     } catch {
                         return false
                     }
+                },
+                async logout() {
+                    localStorage.setItem("namuser", "{}")
+                    // TODO: Request server to revoke token
+                    return true
                 }
             },
             notification: {
@@ -273,7 +283,7 @@ function GenerateInstall() {
             }
         }
         Vue.mixin({
-            created(){
+            created() {
                 this.$nam.pullCredentials()
             },
             mounted() {

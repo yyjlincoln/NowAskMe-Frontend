@@ -43,7 +43,7 @@ export default {
   }),
   computed: {},
   mounted() {
-    this.globalTitle = this.randomGreetings() + this.$nam.user.name;
+    this.globalTitle = this.randomGreetings() + this.$nam.user.name+" 👋";
   },
   methods: {
     randomGreetings() {

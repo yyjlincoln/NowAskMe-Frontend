@@ -11,6 +11,10 @@ import privacy from '../views/legal/privacy.vue'
 import dashboard from '../views/app/dashboard.vue'
 import diagnostics from '../views/general/diagnostics.vue'
 import app from '../views/app/app.vue'
+import friends from '../views/app/friends.vue'
+import box from '../views/app/box.vue'
+import settings from '../views/app/settings.vue'
+import logout from '../views/auth/logout.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +43,21 @@ const routes = [
         path: '/dashboard',
         component: dashboard
       },
+      {
+        name: 'friends',
+        path: '/friends',
+        component: friends
+      },
+      {
+        name: 'box',
+        path: '/box',
+        component: box
+      },
+      {
+        name: 'settings',
+        path: '/settings',
+        component: settings
+      }
     ]
   },
   {
@@ -62,6 +81,11 @@ const routes = [
     name: 'setup',
     path: '/setup',
     component: setup
+  },
+  {
+    name: 'logout',
+    path: '/logout',
+    component: logout
   },
   {
     path: '/diagnostics',
