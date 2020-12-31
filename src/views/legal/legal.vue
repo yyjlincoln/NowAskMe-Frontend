@@ -24,7 +24,7 @@
             >Terms of Service</router-link
           >
           <router-link
-            to="/legal/tos"
+            to="/legal/privacy"
             class="text-3xl font-extrabold mt-5 text-gradient underline"
             >Privacy Policy</router-link
           >
