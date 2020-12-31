@@ -106,11 +106,12 @@ export default {
             "Successfully updated profile",
             res.message
           );
-          await this.useractions.getProfile()
-          this.pullCredentials()
+          await this.$nam.useractions.getProfile()
+          this.$nam.pullCredentials()
           this.$router.push("/dashboard");
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e)
           this.$nam.notification.failed(
             "Could not update your profile",
             "An error occured."
