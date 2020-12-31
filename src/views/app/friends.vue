@@ -1,14 +1,33 @@
 <template>
   <div>
-    <nam-page>
+    <nam-page :unbounded="true">
       <nam-text subtitle="Friends" title="Your friends"></nam-text>
-      <nam-area title="Recents" config_class="min-w-full">
-        <nam-user
-          v-for="friend in friends"
-          :key="friend.uuid"
-          :user="friend"
-        ></nam-user>
-      </nam-area>
+      <div class="flex flex-wrap flex-row mt-5">
+        <nam-area title="Recent Contacts..." config_class="max-w-md">
+          <nam-user v-for="friend in friends" :key="friend.uuid" :user="friend">
+            <span class="font-bold text-gray-500">{{
+              friend.description
+            }}</span>
+          </nam-user>
+          <div v-if="friends.length == 0">
+            <span class="font-bold text-gray-500"
+              >Oops...We can't find any...</span
+            >
+          </div>
+        </nam-area>
+        <nam-area title="Pinned📌" config_class="max-w-md">
+          <nam-user v-for="friend in pinned" :key="friend.uuid" :user="friend">
+            <span class="font-bold text-gray-500">{{
+              friend.description
+            }}</span>
+          </nam-user>
+          <div v-if="pinned.length == 0">
+            <span class="font-bold text-gray-500"
+              >Oops...We can't find any...</span
+            >
+          </div>
+        </nam-area>
+      </div>
     </nam-page>
   </div>
 </template>
@@ -23,10 +42,25 @@ export default {
   data: () => ({
     friends: [
       {
-        uuid: "awd",
-        name:"test",
-        description:"description",
-        userid:'userid'
+        uuid: "uuid1",
+        name: "testuser1",
+        description:
+          "Hey, I've just registered a nowask.me account. It's awesome!",
+        userid: "userid1",
+      },
+      {
+        uuid: "uuid2",
+        name: "Lincoln Yan",
+        description: "Hey, look! This man coded the whole thing.",
+        userid: "userid",
+      },
+    ],
+    pinned: [
+      {
+        uuid: "uuid2",
+        name: "Lincoln Yan",
+        description: "Hey, look! This man coded the whole thing.",
+        userid: "userid",
       },
     ],
   }),

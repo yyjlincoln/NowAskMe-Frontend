@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="display == 'list'"
-      class="flex flex-col bg-gray-200 rounded-md px-2 py-2"
+      class="flex flex-col bg-gray-200 rounded-md px-5 py-5 my-1 mx-1"
     >
       <div class="flex flex-row">
         <div>
@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col mt-1">
         <slot></slot>
       </div>
     </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+// TODO: Dropdown at the user card
 export default {
   props: {
     user: {

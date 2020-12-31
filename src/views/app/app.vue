@@ -46,6 +46,17 @@
           </template>
           <span class="font-extrabold">My Box</span>
         </vs-sidebar-item>
+        <vs-sidebar-item id="post" class="mt-3">
+          <template #icon>
+            <div
+              class="w-full h-full flex flex-col justify-center"
+              @click="$router.push('/post')"
+            >
+              <i class="bx bxs-send mx-auto"></i>
+            </div>
+          </template>
+          <span class="font-extrabold">Post a new question</span>
+        </vs-sidebar-item>
         <vs-sidebar-item id="settings" class="mt-3">
           <template #icon>
             <div
@@ -76,11 +87,15 @@
         <router-view></router-view>
       </transition>
     </div>
+    <nam-footer></nam-footer>
   </div>
 </template>
 
 <script>
-export default {};
+import namFooter from "../../components/nam-footer.vue";
+export default {
+  components: { namFooter },
+};
 </script>
 
 <style>

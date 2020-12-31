@@ -15,6 +15,7 @@ import friends from '../views/app/friends.vue'
 import box from '../views/app/box.vue'
 import settings from '../views/app/settings.vue'
 import logout from '../views/auth/logout.vue'
+import post from '../views/app/post.vue'
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,11 @@ const routes = [
         name: 'settings',
         path: '/settings',
         component: settings
+      },
+      {
+        name:'post',
+        path:'/post',
+        component: post
       }
     ]
   },

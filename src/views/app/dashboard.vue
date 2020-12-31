@@ -27,7 +27,6 @@
         </div>
       </div>
     </nam-page>
-    <nam-footer></nam-footer>
   </div>
 </template>
 
@@ -35,9 +34,8 @@
 import NamPage from "../../components/nam-page.vue";
 import namText from "../../components/nam-text.vue";
 import NamArea from "../../components/nam-area.vue";
-import NamFooter from "../../components/nam-footer.vue";
 export default {
-  components: { namText, NamPage, NamArea, NamFooter },
+  components: { namText, NamPage, NamArea},
   data: () => ({
     globalTitle: "Loading status...",
   }),
