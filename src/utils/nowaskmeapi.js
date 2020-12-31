@@ -247,6 +247,7 @@ function GenerateInstall() {
                     }
                 },
                 async logout() {
+                    Vue.prototype.$nam.user = {}
                     localStorage.setItem("namuser", "{}")
                     // TODO: Request server to revoke token
                     return true

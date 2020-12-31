@@ -63,6 +63,7 @@ export default {
           "Logged out",
           "You've successfully logged out."
         );
+        this.$router.push('/')
       }
     },
   },

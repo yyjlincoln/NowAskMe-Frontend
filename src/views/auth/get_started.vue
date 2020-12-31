@@ -99,6 +99,7 @@
             <a
               class="rounded-md shadow bg-indigo-600 hover:bg-indigo-700 px-5 py-2 mx-2 my-2"
               href="/login/password"
+              @click.prevent="$router.push('/login/password')"
             >
               <div class="flex">
                 <svg
@@ -125,6 +126,7 @@
             <a
               class="rounded-md shadow bg-indigo-600 hover:bg-indigo-700 px-5 py-2 mx-2 my-2"
               href="/login/qr"
+              @click.prevent="$router.push('/login/qr')"
             >
               <div class="flex">
                 <svg
