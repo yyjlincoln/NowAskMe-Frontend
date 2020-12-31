@@ -87,9 +87,9 @@
                 class="text-base text-gray-700 mt-5 px-3 md:mt-0 sm:mx-auto md:text-xl"
               >
                 By continuing, you agree to our
-                <a class="underline" href="/legal/privacy">privacy policy</a>
+                <a class="underline" href="/legal/privacy">Privacy Policy</a>
                 and
-                <a class="underline" href="/legal/eula">end user agreement</a>
+                <a class="underline" href="/legal/tos">Terms of Service</a>
               </p>
             </div>
           </div>

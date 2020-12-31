@@ -6,7 +6,7 @@ import page_unavailable from '../views/general/page_unavailable.vue'
 import verification from '../views/auth/verification.vue'
 import setup from '../views/user/setup.vue'
 import legal from '../views/legal/legal.vue'
-import eula from '../views/legal/eula.vue'
+import tos from '../views/legal/tos.vue'
 import privacy from '../views/legal/privacy.vue'
 import dashboard from '../views/app/dashboard.vue'
 import diagnostics from '../views/general/diagnostics.vue'
@@ -45,9 +45,9 @@ const routes = [
         component: privacy
       },
       {
-        name: 'eula',
-        path: 'eula',
-        component: eula
+        name: 'tos',
+        path: 'tos',
+        component: tos
       },
     ]
   },
