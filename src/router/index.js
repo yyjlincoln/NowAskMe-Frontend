@@ -5,6 +5,12 @@ import get_started from '../views/auth/get_started.vue'
 import page_unavailable from '../views/general/page_unavailable.vue'
 import verification from '../views/auth/verification.vue'
 import setup from '../views/user/setup.vue'
+import legal from '../views/legal/legal.vue'
+import eula from '../views/legal/eula.vue'
+import privacy from '../views/legal/privacy.vue'
+import dashboard from '../views/app/dashboard.vue'
+import diagnostics from '../views/general/diagnostics.vue'
+
 
 Vue.use(VueRouter)
 
@@ -14,22 +20,50 @@ const routes = [
     component: main
   },
   {
-    name:'login',
-    path:'/get-started',
+    name: 'login',
+    path: '/get-started',
     component: get_started
   },
   {
     name: 'verification',
-    path:'/verification',
+    path: '/verification',
     component: verification
   },
   {
-    name:'setup',
-    path:'/setup',
+    name: 'dashboard',
+    path: '/dashboard',
+    component: dashboard
+  },
+  {
+    name: 'legal',
+    path: '/legal',
+    component: legal,
+    children: [
+      {
+        name: 'privacy',
+        path: 'privacy',
+        component: privacy
+      },
+      {
+        name: 'eula',
+        path: 'eula',
+        component: eula
+      },
+    ]
+  },
+  {
+    name: 'setup',
+    path: '/setup',
     component: setup
   },
   {
-    path:'*',
+    path: '/diagnostics',
+    name: 'diagnostics',
+    component: diagnostics
+
+  },
+  {
+    path: '*',
     component: page_unavailable
   }
 ]

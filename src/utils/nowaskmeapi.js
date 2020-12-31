@@ -41,7 +41,8 @@ function GenerateInstall() {
                     '^/register$',
                     '^/verification$',
                     '^/login/*',
-                    '^/legal/*'
+                    '^/legal/*',
+                    '^/local/*'
                     // RegExp: ^ - Nothing before; $ - Nothing after.
                 ]
                 for (var i = 0; i < authentication_free.length; i++) {

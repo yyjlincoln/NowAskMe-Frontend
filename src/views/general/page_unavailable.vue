@@ -25,6 +25,7 @@
                 <span class="text-7xl tracking-tight font-extrabold block text-indigo-600">This page is unavailable or could not be found.</span>
                 <span class="text-sm tracking-tight font-extrabold block text-gray-500 mt-10">Diagnostics:</span>
                 <span class="text-sm tracking-tight font-extrabold block text-gray-500">uuid: {{$nam.user.uuid}}, token: {{$nam.user.token}}, name: {{$nam.user.name}}</span>
+                <span class="text-sm tracking-tight font-extrabold block text-gray-500">You are connected to: {{$nam.server}}</span>
             </div>
           </main>
         </div>
