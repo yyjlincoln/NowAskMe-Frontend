@@ -7,23 +7,27 @@
 </template>
 
 <style>
-.slide-left-enter-active,
 .slide-left-leave-active,
-.slide-right-enter-active,
-.slide-right-leave-active {
+.slide-right-leave-active{
+  display: none;
+}
+
+.slide-left-enter-active,
+.slide-right-enter-active {
+  /* position: absolute; */
   transition-duration: 0.5s;
   transition-property: height, opacity, transform;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   overflow: hidden;
 }
 
-.slide-left-enter,
-.slide-right-leave-active {
+/* .slide-right-leave-active, */
+.slide-left-enter{
   opacity: 0;
   transform: translate(2em, 0);
 }
 
-.slide-left-leave-active,
+/* .slide-left-leave-active, */
 .slide-right-enter {
   opacity: 0;
   transform: translate(-2em, 0);
@@ -53,7 +57,7 @@
 <script>
 import "tailwindcss/tailwind.css";
 // import "boxicons/dist/boxicons"
-import "boxicons/css/boxicons.min.css"
+import "boxicons/css/boxicons.min.css";
 export default {
   name: "App",
   components: {},
@@ -64,7 +68,6 @@ export default {
   }),
   watch: {
     // $route: function (before, after) {
-
     // },
   },
 };
