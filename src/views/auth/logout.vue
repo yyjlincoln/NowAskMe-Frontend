@@ -1,7 +1,13 @@
 <template>
   <div>
     <nam-page :centered="true">
-      <nam-text subtitle="You're about to log out" title="Are you sure?"></nam-text>
+      <nam-text
+        subtitle="You're about to log out"
+        title="Do you want to log out?"
+      ></nam-text>
+      <span class="mt-3 font-extrabold text-gray-600 text-3xl"
+        >You're currently logged in as {{ $nam.user.name }} ({{$nam.user.userid}})</span
+      >
 
       <div class="flex mt-10">
         <div class="rounded-md shadow">
@@ -32,7 +38,7 @@
             Confirm
           </a>
         </div>
-        <div class="mt-3 sm:mt-0 sm:ml-3">
+        <div class="ml-3">
           <a
             href="/dashboard"
             @click.prevent="$router.go(-1)"
@@ -63,7 +69,7 @@ export default {
           "Logged out",
           "You've successfully logged out."
         );
-        this.$router.push('/')
+        this.$router.push("/");
       }
     },
   },
