@@ -79,7 +79,10 @@ function GenerateInstall() {
                 }
             },
             storeCredentials() {
-                localStorage.setItem("namuser", JSON.stringify(this.user))
+                if (this.user != undefined) {
+
+                    localStorage.setItem("namuser", JSON.stringify(this.user))
+                }
             },
             pullCredentials() {
                 this.user = {
@@ -193,11 +196,11 @@ function GenerateInstall() {
                             otp
                         }
                     })
-                    Vue.prototype.$nam.user = res
-                    Vue.prototype.$nam.storeCredentials()
                     if (res == null || res == undefined) {
                         throw new Error("Could not complete the request")
                     }
+                    Vue.prototype.$nam.user = res
+                    Vue.prototype.$nam.storeCredentials()
                     return res
                 },
                 async register(email, otp) {
