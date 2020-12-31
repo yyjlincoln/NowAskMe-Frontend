@@ -100,12 +100,14 @@ export default {
           description: this.description,
           userid: this.userid,
         })
-        .then((res) => {
+        .then(async (res) => {
           this.done = false;
           this.$nam.notification.success(
             "Successfully updated profile",
             res.message
           );
+          await this.useractions.getProfile()
+          this.pullCredentials()
           this.$router.push("/dashboard");
         })
         .catch(() => {
