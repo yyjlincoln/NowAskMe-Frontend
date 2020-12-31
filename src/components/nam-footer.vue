@@ -11,7 +11,7 @@
         <router-link to="/legal" class="underline">here</router-link>.</span
       >
       <span class="font-bold block text-gray-400 text-xl mt-5"
-        >©️Yijun "Lincoln" Yan 2020. All rights reserved.</span
+        >©️Yijun "Lincoln" Yan 2020 - 2021. All rights reserved.</span
       >
       <a
         class="text-gray-400 underline font-bold text-xl"
