@@ -10,7 +10,7 @@ import tos from '../views/legal/tos.vue'
 import privacy from '../views/legal/privacy.vue'
 import dashboard from '../views/app/dashboard.vue'
 import diagnostics from '../views/general/diagnostics.vue'
-
+import app from '../views/app/app.vue'
 
 Vue.use(VueRouter)
 
@@ -30,9 +30,16 @@ const routes = [
     component: verification
   },
   {
-    name: 'dashboard',
-    path: '/dashboard',
-    component: dashboard
+    name: 'app',
+    path: '/app',
+    component: app,
+    children: [
+      {
+        name: 'dashboard',
+        path: '/dashboard',
+        component: dashboard
+      },
+    ]
   },
   {
     name: 'legal',

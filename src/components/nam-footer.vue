@@ -13,6 +13,12 @@
       <span class="font-bold block text-gray-400 text-xl mt-5"
         >©️Yijun "Lincoln" Yan 2020. All rights reserved.</span
       >
+      <a
+        class="text-gray-400 underline font-bold text-xl"
+        href="/legal"
+        @click.prevent="$router.push('legal')"
+        >Legal Statements</a
+      >
     </div>
   </div>
 </template>

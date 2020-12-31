@@ -5,7 +5,7 @@
     >
       <span
         class="text-lg md:text-xl font-bold text-gray-500 mb-3 text-center md:text-left"
-        >Didn't work? Try those:</span
+        >{{title}}</span
       >
       <div
         class="flex flex-col flex-nowrap sm:flex-row justify-center md:justify-start"
@@ -17,7 +17,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props:{
+    title:{
+      default:'Didn\'t work? Try those:'
+    }
+  }
+};
 </script>
 
 <style>

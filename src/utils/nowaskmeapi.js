@@ -273,6 +273,9 @@ function GenerateInstall() {
             }
         }
         Vue.mixin({
+            created(){
+                this.$nam.pullCredentials()
+            },
             mounted() {
                 this.$nam.watch(this)
             },

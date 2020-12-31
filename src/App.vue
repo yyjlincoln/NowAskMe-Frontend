@@ -52,22 +52,19 @@
 
 <script>
 import "tailwindcss/tailwind.css";
-
+// import "boxicons/dist/boxicons"
+import "boxicons/css/boxicons.min.css"
 export default {
   name: "App",
   components: {},
   data: () => ({
-    transition_name: "fade",
+    transition_name: "slide-left",
+    // transition_name: "fade",
     lastPath: "/",
   }),
   watch: {
     // $route: function (before, after) {
-    //   if (after.path.split("/").length >= before.path.split("/").length && after.path!=this.lastPath) {
-    //     this.transition_name = "slide-left";
-    //   } else {
-    //     this.transition_name = "slide-right";
-    //   }
-    //   this.lastPath = after.path
+
     // },
   },
 };
