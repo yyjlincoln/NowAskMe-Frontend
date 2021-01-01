@@ -10,7 +10,7 @@ function GenerateInstall() {
         options
         Vue.prototype.$nam = {
             // server: "http://localhost:5000",
-            version: 'Major-1/1/2021',
+            version: 'Major-2/1/2021',
             server: "https://apis.nowask.me",
             that: null,
             lastPath: '',
@@ -25,6 +25,7 @@ function GenerateInstall() {
             cache_max_wait: 5000,
             cache_wait_period: 300,
             initialized: false,
+            connected: true,
             async init(that) {
                 if (this.initialized == true) {
                     return
@@ -197,16 +198,22 @@ function GenerateInstall() {
                     res = await axios.get(this.server + route, {
                         params
                     })
+                    this.connected = true
                 } catch (e) {
                     this.logging.error(e)
-                    this.notification.failed('Check your internet connection', 'We could not contact our server due to an internet issue (' + String(e) + ')')
                     if (handle_error == true && max_retry > 0) {
+                        await this.sleep(1000)
                         return await this.requestAPI(route, {
                             params,
                             authenticate,
                             handle_error,
-                            max_retry: max_retry - 1
+                            max_retry: max_retry - 1,
+                            no_cache: true,
+                            clear_cache: true
                         })
+                    } else {
+                        this.notification.failed('Check your internet connection', 'We could not contact our server due to an internet issue (' + String(e) + ')')
+                        this.connected = false
                     }
                     return undefined
                 }

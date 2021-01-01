@@ -11,6 +11,7 @@
       <nam-area class="mt-10" title="General Information" config_class="">
         <span>Version: {{ $nam.version }}</span>
         <span>Server: {{ $nam.server }}</span>
+        <span>Connectivity: {{ $nam.connected }}</span>
         <span>Current timestamp: {{ Date.now() }}</span>
       </nam-area>
       <nam-area title="User Account Information" config_class="">
