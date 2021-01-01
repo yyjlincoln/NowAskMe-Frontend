@@ -145,7 +145,6 @@ export default {
     },
   },
   mounted() {
-    window.debug = this
     this._listener = this.$nam.useractions.addUserStatusListener(this, this.userDataChanged);
     this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
       console.log(followed);
