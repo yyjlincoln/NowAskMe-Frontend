@@ -10,7 +10,7 @@ function GenerateInstall() {
         options
         Vue.prototype.$nam = {
             // server: "http://localhost:5000",
-            version:'Major-1/1/2021',
+            version: 'Major-1/1/2021',
             server: "https://apis.nowask.me",
             that: null,
             lastPath: '',
@@ -21,7 +21,9 @@ function GenerateInstall() {
                 scope: null
             },
             cache: {}, // Add some cache, otherwise there would be >10 requests to the server in some circumstances.
-            cache_max: 30000,
+            cache_max: 30000, // Max age
+            cache_max_wait: 5000,
+            cache_wait_period: 300,
             initialized: false,
             async init(that) {
                 if (this.initialized == true) {
@@ -119,7 +121,12 @@ function GenerateInstall() {
                                 // There is an existing request, so wait for it
                                 console.log("Cache wait")
                                 // Wait for 1 second
-                                await this.sleep(1000)
+                                let wait_time = 0;
+                                while (wait_time <= this.cache_max_wait && this.cache[cache_key].content == null) {
+                                    console.log('Cache still waiting')
+                                    await this.sleep(this.cache_wait_period)
+                                    wait_time += this.cache_wait_period
+                                }
                                 if (this.cache[cache_key].content == null) {
                                     console.log("Cache wait timeout.")
                                 } else {
@@ -243,7 +250,7 @@ function GenerateInstall() {
                         throw new Error('Could not complete the request')
                     }
                     this.getProfile()
-                    this._invokeUserStatusChange()
+                    this._invokeUserStatusChange([Vue.prototype.$nam.user.uuid])
                     return res
                 },
                 async getUserProfile(uuid) {
@@ -339,7 +346,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
-                    this._invokeUserStatusChange()
+                    this._invokeUserStatusChange([Vue.prototype.$nam.user.uuid, uuid])
                     return res
                 },
                 async unfollow(uuid) {
@@ -351,7 +358,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
-                    this._invokeUserStatusChange()
+                    this._invokeUserStatusChange([Vue.prototype.$nam.user.uuid, uuid])
                     return res
                 },
                 async pin(uuid) {
@@ -363,7 +370,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
-                    this._invokeUserStatusChange()
+                    this._invokeUserStatusChange([Vue.prototype.$nam.user.uuid, uuid])
                     return res
                 },
                 async unpin(uuid) {
@@ -375,7 +382,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
-                    this._invokeUserStatusChange()
+                    this._invokeUserStatusChange([Vue.prototype.$nam.user.uuid, uuid])
                     return res
                 },
                 _userStatusListeners: [],
@@ -387,11 +394,11 @@ function GenerateInstall() {
                 removeUserStatusListener(id) {
                     delete this._userStatusListeners[id]
                 },
-                _invokeUserStatusChange() {
+                _invokeUserStatusChange(associated_uuids=[]) {
                     for (var listener in this._userStatusListeners) {
                         if (listener) {
                             try {
-                                this._userStatusListeners[listener]()
+                                this._userStatusListeners[listener](associated_uuids)
                             } catch (e) {
                                 this.removeUserStatusListener(listener)
                             }
@@ -439,7 +446,7 @@ function GenerateInstall() {
                     }
                     Vue.prototype.$nam.user = res
                     Vue.prototype.$nam.storeCredentials()
-                    Vue.prototype.$nam.useractions._invokeUserStatusChange()
+                    Vue.prototype.$nam.useractions._invokeUserStatusChange([Vue.prototype.$nam.user.uuid])
                     return res
                 },
                 async register(email, otp) {
@@ -452,7 +459,7 @@ function GenerateInstall() {
                     })
                     Vue.prototype.$nam.user = res
                     Vue.prototype.$nam.storeCredentials()
-                    Vue.prototype.$nam.useractions._invokeUserStatusChange()
+                    Vue.prototype.$nam.useractions._invokeUserStatusChange([Vue.prototype.$nam.user.uuid])
                     if (res == null || res == undefined) {
                         throw new Error("Could not complete the request")
                     }
@@ -483,7 +490,7 @@ function GenerateInstall() {
                 async logout() {
                     Vue.prototype.$nam.user = {}
                     localStorage.setItem("namuser", "{}")
-                    Vue.prototype.$nam.useractions._invokeUserStatusChange()
+                    Vue.prototype.$nam.useractions._invokeUserStatusChange([Vue.prototype.$nam.user.uuid])
                     // TODO: Request server to revoke token
                     return true
                 }

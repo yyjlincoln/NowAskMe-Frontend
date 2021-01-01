@@ -61,7 +61,7 @@ export default {
     userActionsDropdown: false,
     followed: false,
     pinned: false,
-    _listener: -1
+    _listener: -1,
   }),
   methods: {
     showActions() {
@@ -123,13 +123,16 @@ export default {
           });
       }
     },
-    userDataChanged() {
-      this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
-        this.followed = followed;
-      });
-      this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {
-        this.pinned = pinned;
-      });
+    userDataChanged(uuids) {
+      if (uuids != undefined && uuids.includes(this.user.uuid)) {
+        
+        this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
+          this.followed = followed;
+        });
+        this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {
+          this.pinned = pinned;
+        });
+      }
     },
   },
   props: {
@@ -144,7 +147,10 @@ export default {
     },
   },
   mounted() {
-    this._listener = this.$nam.useractions.addUserStatusListener(this, this.userDataChanged);
+    this._listener = this.$nam.useractions.addUserStatusListener(
+      this,
+      this.userDataChanged
+    );
     this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
       this.followed = followed;
     });
@@ -154,7 +160,7 @@ export default {
   },
   beforeDestroy() {
     this.userActionsDropdown = false;
-    this.$nam.useractions.removeUserStatusListener(this._listener)
+    this.$nam.useractions.removeUserStatusListener(this._listener);
   },
 };
 </script>

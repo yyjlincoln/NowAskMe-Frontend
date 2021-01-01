@@ -167,11 +167,16 @@ export default {
         }
       });
     },
+    UserStatusChanged(uuids) {
+      if (uuids != undefined && uuids.includes(this.$nam.user.uuid)) {
+        this.reloadData()
+      }
+    },
   },
   mounted() {
     this._listener = this.$nam.useractions.addUserStatusListener(
       this,
-      this.reloadData
+      this.UserStatusChanged
     );
     this.reloadData();
   },
