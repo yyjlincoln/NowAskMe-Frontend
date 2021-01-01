@@ -6,7 +6,7 @@
     >
       <div class="flex flex-row">
         <div>
-          <vs-avatar>
+          <vs-avatar color="#d1d5db">
             <template #text>{{ user.name }}</template>
           </vs-avatar>
         </div>
@@ -15,15 +15,36 @@
             <div class="font-bold text-md">
               {{ user.name }}
             </div>
-            <!-- <div class="font-bold text-md text-gray-500 ml-1">
-              #{{ user.userid }}
-            </div> -->
           </div>
           <div class="flex flex-col">
             <div class="font-bold text-md text-gray-500">
               #{{ user.userid }}
             </div>
           </div>
+        </div>
+        <!-- User Actions Button -->
+        <div v-if="show_actions">
+          <vs-tooltip shadow not-hover bottom v-model="userActionsDropdown">
+            <vs-button icon color="#d1d5db" @click="showActions">
+              <i class="bx bxs-chevron-down-circle"></i>
+            </vs-button>
+            <template #tooltip :border="false">
+              <div class="w-full flex flex-col">
+                <a
+                  class="text-md font-bold rounded-md px-2 my-1"
+                  @click.prevent="toggleFollow"
+                  href="#"
+                  >{{ followed ? "Unfollow" : "Follow" }}</a
+                >
+                <a
+                  class="text-md font-bold rounded-md px-2 my-1"
+                  @click.prevent="togglePin"
+                  href="#"
+                  >{{ pinned ? "Unpin" : "Pin" }}</a
+                >
+              </div>
+            </template>
+          </vs-tooltip>
         </div>
       </div>
       <div class="flex flex-col mt-1">
@@ -36,6 +57,70 @@
 <script>
 // TODO: Dropdown at the user card
 export default {
+  data: () => ({
+    userActionsDropdown: false,
+    followed: false,
+    pinned: false,
+  }),
+  methods: {
+    showActions() {
+      this.userActionsDropdown = true;
+    },
+    toggleFollow() {
+      if (this.followed) {
+        this.$nam.useractions
+          .unfollow(this.user.uuid)
+          .then(() => {
+            this.followed = false;
+          })
+          .catch(() => {
+            this.$nam.notification.failed(
+              "Could not unfollow '" + this.user.name + "'.",
+              "An error occured."
+            );
+          });
+      } else {
+        this.$nam.useractions
+          .follow(this.user.uuid)
+          .then(() => {
+            this.followed = true;
+          })
+          .catch(() => {
+            this.$nam.notification.failed(
+              "Could not follow '" + this.user.name + "'.",
+              "An error occured."
+            );
+          });
+      }
+    },
+    togglePin() {
+      if (this.pinned) {
+        this.$nam.useractions
+          .unpin(this.user.uuid)
+          .then(() => {
+            this.pinned = false;
+          })
+          .catch(() => {
+            this.$nam.notification.failed(
+              "Could not unpin '" + this.user.name + "'.",
+              "An error occured."
+            );
+          });
+      } else {
+        this.$nam.useractions
+          .pin(this.user.uuid)
+          .then(() => {
+            this.pinned = true;
+          })
+          .catch(() => {
+            this.$nam.notification.failed(
+              "Could not pin '" + this.user.name + "'.",
+              "An error occured."
+            );
+          });
+      }
+    },
+  },
   props: {
     user: {
       required: true,
@@ -43,6 +128,18 @@ export default {
     display: {
       default: "list",
     },
+    show_actions: {
+      default: true,
+    },
+  },
+  mounted() {
+    this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
+      console.log(followed);
+      this.followed = followed;
+    });
+    this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {
+      this.pinned = pinned;
+    });
   },
 };
 </script>

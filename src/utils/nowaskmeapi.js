@@ -136,6 +136,9 @@ function GenerateInstall() {
                         }
                         // Do something
                         return undefined
+                    } else if (res.data.code > 0) {
+                        this.notification.warn("Warning (" + String(res.data.code) + ")", res.data.message)
+                        return res.data
                     } else {
                         return res.data
                     }
@@ -394,6 +397,17 @@ function GenerateInstall() {
                         sticky: true,
                         position: "top-right",
                         color: "danger",
+                        duration: 5000,
+                        progress: 'auto'
+                    })
+                },
+                warn(subject, message) {
+                    Vue.prototype.$vs.notification({
+                        title: subject,
+                        text: message,
+                        sticky: true,
+                        position: "top-right",
+                        color: "warning",
                         duration: 5000,
                         progress: 'auto'
                     })
