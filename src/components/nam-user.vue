@@ -67,6 +67,7 @@ export default {
       this.userActionsDropdown = true;
     },
     toggleFollow() {
+      this.userActionsDropdown = false;
       if (this.followed) {
         this.$nam.useractions
           .unfollow(this.user.uuid)
@@ -94,6 +95,7 @@ export default {
       }
     },
     togglePin() {
+      this.userActionsDropdown = false;
       if (this.pinned) {
         this.$nam.useractions
           .unpin(this.user.uuid)
@@ -140,6 +142,9 @@ export default {
     this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {
       this.pinned = pinned;
     });
+  },
+  beforeDestroy() {
+    this.userActionsDropdown = false;
   },
 };
 </script>

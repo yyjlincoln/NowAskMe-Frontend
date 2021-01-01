@@ -169,6 +169,7 @@ function GenerateInstall() {
                         throw new Error('Could not complete the request')
                     }
                     this.getProfile()
+                    this._invokeUserStatusChange()
                     return res
                 },
                 async getUserProfile(uuid) {
@@ -256,6 +257,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
+                    this._invokeUserStatusChange()
                     return res
                 },
                 async unfollow(uuid) {
@@ -267,6 +269,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
+                    this._invokeUserStatusChange()
                     return res
                 },
                 async pin(uuid) {
@@ -278,6 +281,7 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
+                    this._invokeUserStatusChange()
                     return res
                 },
                 async unpin(uuid) {
@@ -289,7 +293,27 @@ function GenerateInstall() {
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
+                    this._invokeUserStatusChange()
                     return res
+                },
+                _userStatusListeners: {},
+                addUserStatusListener(that, func) {
+                    this._userStatusListeners[that] = func
+                    that.destroyed = () => {
+                        this.removeUserStatusListener(that)
+                    }
+                },
+                removeUserStatusListener(that) {
+                    delete this._userStatusListeners[that]
+                },
+                _invokeUserStatusChange() {
+                    for (var listener in this._userStatusListeners) {
+                        try {
+                            this._userStatusListeners[listener]()
+                        } catch {
+                            this.removeUserStatusListener(listener)
+                        }
+                    }
                 },
 
 
@@ -332,6 +356,7 @@ function GenerateInstall() {
                     }
                     Vue.prototype.$nam.user = res
                     Vue.prototype.$nam.storeCredentials()
+                    Vue.prototype.$nam.useractions._invokeUserStatusChange()
                     return res
                 },
                 async register(email, otp) {
@@ -344,6 +369,7 @@ function GenerateInstall() {
                     })
                     Vue.prototype.$nam.user = res
                     Vue.prototype.$nam.storeCredentials()
+                    Vue.prototype.$nam.useractions._invokeUserStatusChange()
                     if (res == null || res == undefined) {
                         throw new Error("Could not complete the request")
                     }
@@ -374,6 +400,7 @@ function GenerateInstall() {
                 async logout() {
                     Vue.prototype.$nam.user = {}
                     localStorage.setItem("namuser", "{}")
+                    Vue.prototype.$nam.useractions._invokeUserStatusChange()
                     // TODO: Request server to revoke token
                     return true
                 }
