@@ -7,7 +7,6 @@
         <span>Version: {{ $nam.version }}</span>
         <span>Server: {{ $nam.server }}</span>
         <span>Current timestamp: {{ Date.now() }}</span>
-        <span>Cache settings: {{ $nam.cache_max }}</span>
       </nam-area>
       <nam-area title="User Account Information" config_class="">
         <span>uuid: {{ $nam.user.uuid }}</span>
@@ -16,6 +15,9 @@
         <span>token: {{ $nam.user.token }}</span>
       </nam-area>
       <nam-area title="Cache Information" config_class="">
+        <span>Cache max age: {{ $nam.cache_max }}</span>
+        <span>Cache max wait: {{ $nam.cache_max_wait }}</span>
+        <span>Cache wait period: {{ $nam.cache_wait_period }}</span>
         <span>Local Cache: {{ $nam.cache }}</span>
       </nam-area>
       <nam-area title="Listener Information" config_class="">

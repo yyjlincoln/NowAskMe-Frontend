@@ -17,6 +17,8 @@ import settings from '../views/app/settings.vue'
 import logout from '../views/auth/logout.vue'
 import post from '../views/app/post.vue'
 import friends_add from '../views/app/friends_add.vue'
+import login_qr from '../views/auth/qr.vue'
+import login_password from '../views/auth/password.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +31,16 @@ const routes = [
     name: 'login',
     path: '/get-started',
     component: get_started
+  },
+  {
+    name: 'login_qr',
+    path:'/login/qr',
+    component: login_qr
+  },
+  {
+    name:'login_password',
+    path: '/login/password',
+    component: login_password
   },
   {
     name: 'verification',
