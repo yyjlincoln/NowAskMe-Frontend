@@ -1,7 +1,22 @@
 <template>
   <div>
     <nam-page :unbounded="true">
-      <nam-text subtitle="Friends" title="Your friends"></nam-text>
+      <div class="flex flex-row">
+        <div>
+          <nam-text
+            subtitle="Friends"
+            title="Your friends"
+          ></nam-text>
+        </div>
+        <a class="flex flex-col justify-end ml-20" href="#" @click.prevent="$router.push('/friends/add')">
+          <span
+            class="flex flex-row px-3 py-3 my-3 mx-3 rounded-md shadow text-white bg-gradient"
+          >
+            <i class="bx bx-plus text-3xl"></i>
+            <span class="text-2xl font-bold">Add</span>
+          </span>
+        </a>
+      </div>
       <div class="flex flex-wrap flex-row mt-5">
         <!-- <nam-area title="Recent Contacts..." config_class="max-w-md">
           <nam-user v-for="friend in friends" :key="friend.uuid" :user="friend">
@@ -60,6 +75,9 @@
           </div>
         </nam-area>
       </div>
+      <nam-area title="Couldn't find your friends? Try adding them 🔍" config_class="w-full">
+        <span class="font-xl">You can always search for your friends by clicking "add", or simply tap <router-link to='/friends/add' class="underline">here</router-link></span>
+      </nam-area>
     </nam-page>
   </div>
 </template>
@@ -81,10 +99,10 @@ export default {
   }),
   methods: {
     reloadData() {
-      this.$nam.notification.success(
-        "Data updated",
-        "We've detected a change in your user data. It's now updated."
-      );
+      // this.$nam.notification.success(
+      //   "Data updated",
+      //   "We've detected a change in your user data. It's now updated."
+      // );
       this.$nam.useractions.getFollowers().then((followers_uuids) => {
         if (followers_uuids.length < this.followers.length) {
           // Optimize for better user experience:

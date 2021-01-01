@@ -125,7 +125,6 @@ export default {
     },
     userDataChanged() {
       this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
-        console.log(followed);
         this.followed = followed;
       });
       this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {
@@ -147,7 +146,6 @@ export default {
   mounted() {
     this._listener = this.$nam.useractions.addUserStatusListener(this, this.userDataChanged);
     this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
-      console.log(followed);
       this.followed = followed;
     });
     this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {

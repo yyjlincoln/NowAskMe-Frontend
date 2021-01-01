@@ -16,6 +16,7 @@ import box from '../views/app/box.vue'
 import settings from '../views/app/settings.vue'
 import logout from '../views/auth/logout.vue'
 import post from '../views/app/post.vue'
+import friends_add from '../views/app/friends_add.vue'
 
 Vue.use(VueRouter)
 
@@ -60,9 +61,14 @@ const routes = [
         component: settings
       },
       {
-        name:'post',
-        path:'/post',
+        name: 'post',
+        path: '/post',
         component: post
+      },
+      {
+        name: 'friends_add',
+        path: '/friends/add',
+        component: friends_add
       }
     ]
   },
