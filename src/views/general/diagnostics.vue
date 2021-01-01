@@ -1,7 +1,12 @@
 <template>
   <div>
     <nam-page>
-      <a class="font-extrabold text-2xl font-gray-700" href="/" @click.prevent="$router.go(-1)">⬅️ Back</a>
+      <a
+        class="font-extrabold text-2xl font-gray-700"
+        href="/"
+        @click.prevent="$router.go(-1)"
+        >⬅️ Back</a
+      >
       <nam-text subtitle="Debug" title="Diagnostics"></nam-text>
       <nam-area class="mt-10" title="General Information" config_class="">
         <span>Version: {{ $nam.version }}</span>
@@ -27,6 +32,7 @@
         >
       </nam-area>
       <nam-area title="More Information" config_class="">
+        <button @click="clearcache">Clear Cache</button>
         <button @click="dev">Developer Mode</button>
       </nam-area>
     </nam-page>
@@ -47,6 +53,10 @@ export default {
   }),
   mounted() {},
   methods: {
+    clearcache() {
+      this.$nam.cache = {};
+      localStorage.setItem("nam_cache", JSON.stringify({}));
+    },
     dev() {
       this.devcount--;
       if (this.devcount <= 0) {

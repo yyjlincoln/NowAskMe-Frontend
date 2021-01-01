@@ -32,9 +32,16 @@ function GenerateInstall() {
                 // Allow only one initialization
                 this.initialized = true
                 this.that = that
+                try {
+                    this.cache = JSON.parse(localStorage.getItem("nam_cache"))
+                } catch {
+                    this.cache = {}
+                }
                 await this.pullCredentials()
                 await this.useractions.getProfile({
-                    handle_error: false
+                    handle_error: false,
+                    no_cache: false,
+                    clear_cache: false
                 })
             },
             async onRouteChange(prev, next) {
@@ -60,7 +67,8 @@ function GenerateInstall() {
                     }
                 }
                 await this.useractions.getProfile({
-                    no_cache: false
+                    no_cache: true,
+                    clear_cache: false
                 })
 
             },
@@ -106,11 +114,17 @@ function GenerateInstall() {
             sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             },
-            async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2, no_cache = true } = {}) {
+            async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2, no_cache = true, clear_cache = true } = {}) {
                 let cache_key = ""
                 let check_cache_time = 0
 
                 if (!no_cache) {
+                    try {
+                        this.cache = JSON.parse(localStorage.getItem("nam_cache"))
+                    } catch {
+                        // Could not fetch the cache, then it will use the local cache.
+                        // Nothing to do here
+                    }
                     // Check cache
                     cache_key = JSON.stringify({ route, params, authenticate, handle_error, max_retry })
                     check_cache_time = Date.now()
@@ -158,11 +172,14 @@ function GenerateInstall() {
                     }
                     // Cache finish
 
-                } else {
-                    // In case of a non-cached request, clear the cache 
-                    // (because it will usually change some data and make the cache inaccurate)
-                    // Examples: log in, follow, unfollow, etc.
+                    // Store cache to localstorage
+                    localStorage.setItem("nam_cache", JSON.stringify(this.cache))
+
+                }
+
+                if (clear_cache) {
                     this.cache = {}
+                    localStorage.setItem("nam_cache", JSON.stringify(this.cache))
                 }
 
                 this.pullCredentials()
@@ -198,6 +215,7 @@ function GenerateInstall() {
                         }
                     }
                     // Record finish
+                    localStorage.setItem("nam_cache", JSON.stringify(this.cache))
                 }
 
 
@@ -256,7 +274,8 @@ function GenerateInstall() {
                 async getUserProfile(uuid) {
                     let res = await Vue.prototype.$nam.requestAPI('/user/get_profile', {
                         params: { target: uuid },
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -273,7 +292,8 @@ function GenerateInstall() {
                         params: {
                             target: uuid,
                         },
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -285,7 +305,8 @@ function GenerateInstall() {
                         params: {
                             target: uuid
                         },
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -294,7 +315,8 @@ function GenerateInstall() {
                 },
                 async getPinned() {
                     let res = await Vue.prototype.$nam.requestAPI('/user/get_pinned', {
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -306,7 +328,8 @@ function GenerateInstall() {
                         params: {
                             target: uuid
                         },
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -318,7 +341,8 @@ function GenerateInstall() {
                         params: {
                             target: uuid
                         },
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -330,7 +354,8 @@ function GenerateInstall() {
                         params: {
                             target: uuid
                         },
-                        no_cache: false
+                        no_cache: false,
+                        clear_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -394,7 +419,7 @@ function GenerateInstall() {
                 removeUserStatusListener(id) {
                     delete this._userStatusListeners[id]
                 },
-                _invokeUserStatusChange(associated_uuids=[]) {
+                _invokeUserStatusChange(associated_uuids = []) {
                     for (var listener in this._userStatusListeners) {
                         if (listener) {
                             try {
