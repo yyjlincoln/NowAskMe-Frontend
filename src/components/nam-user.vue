@@ -124,8 +124,7 @@ export default {
       }
     },
     userDataChanged(uuids) {
-      if (uuids != undefined && uuids.includes(this.user.uuid)) {
-        
+      if (!uuids || uuids.includes(this.user.uuid)) {
         this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
           this.followed = followed;
         });

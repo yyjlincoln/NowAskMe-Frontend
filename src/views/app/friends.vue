@@ -168,7 +168,7 @@ export default {
       });
     },
     UserStatusChanged(uuids) {
-      if (uuids != undefined && uuids.includes(this.$nam.user.uuid)) {
+      if (!uuids || uuids.includes(this.$nam.user.uuid)) {
         this.reloadData()
       }
     },
