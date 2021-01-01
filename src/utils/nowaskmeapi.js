@@ -10,6 +10,7 @@ function GenerateInstall() {
         options
         Vue.prototype.$nam = {
             // server: "http://localhost:5000",
+            version:'Major-1/1/2021',
             server: "https://apis.nowask.me",
             that: null,
             lastPath: '',

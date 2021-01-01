@@ -19,6 +19,12 @@
         @click.prevent="$router.push('legal')"
         >Legal Statements</a
       >
+      <a
+        class="text-gray-400 underline font-bold text-xl ml-3"
+        href="/legal"
+        @click.prevent="$router.push('/diagnostics')"
+        >Diagnostics</a
+      >
     </div>
   </div>
 </template>

@@ -87,9 +87,9 @@
                 class="text-base text-gray-700 mt-5 px-3 md:mt-0 sm:mx-auto md:text-xl"
               >
                 By continuing, you agree to our
-                <a class="underline" href="/legal/privacy">Privacy Policy</a>
+                <a class="underline" href="/legal/privacy" @click.prevent="$router.push('/legal/privacy')">Privacy Policy</a>
                 and
-                <a class="underline" href="/legal/tos">Terms of Service</a>
+                <a class="underline" href="/legal/tos" @click.prevent="$router.push('/legal/tos')">Terms of Service</a>
               </p>
             </div>
           </div>
