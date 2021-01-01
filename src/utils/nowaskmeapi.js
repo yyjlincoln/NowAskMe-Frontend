@@ -167,7 +167,129 @@ function GenerateInstall() {
                     }
                     this.getProfile()
                     return res
-                }
+                },
+                async getUserProfile(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/get_profile', {
+                        params: { target: uuid }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return {
+                        name: res.name,
+                        description: res.description,
+                        uuid: res.uuid,
+                        userid: res.userid
+                    }
+                },
+                async getFollowing(uuid = null) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/get_following', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.following
+                },
+                async getFollowers(uuid = null) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/get_followers', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.followers
+                },
+                async getPinned() {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/get_pinned', {})
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.pinned
+                },
+                async isFollowing(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/is_following', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.following
+                },
+                async isFollower(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/is_follower', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.follower
+                },
+                async isPinned(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/is_pinned', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.pinned
+                },
+                async follow(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/follow', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res
+                },
+                async unfollow(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/unfollow', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res
+                },
+                async pin(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/pin', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res
+                },
+                async unpin(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/user/unpin', {
+                        params: {
+                            target: uuid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res
+                },
+
+
             },
             auth: {
                 async checkEmail(email) {
