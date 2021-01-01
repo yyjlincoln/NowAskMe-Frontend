@@ -19,6 +19,8 @@ function GenerateInstall() {
                 name: null,
                 scope: null
             },
+            cache: {}, // Add some cache, otherwise there would be >10 requests to the server in some circumstances.
+            cache_max: 30000,
             initialized: false,
             async init(that) {
                 if (this.initialized == true) {
@@ -54,7 +56,9 @@ function GenerateInstall() {
                         // error
                     }
                 }
-                await this.useractions.getProfile()
+                await this.useractions.getProfile({
+                    no_cache: false
+                })
 
             },
             async watch(that) {
@@ -96,7 +100,63 @@ function GenerateInstall() {
                 }
 
             },
-            async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2 } = {}) {
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            },
+            async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2, no_cache = true } = {}) {
+                let cache_key = ""
+                let check_cache_time = 0
+
+                if (!no_cache) {
+                    // Check cache
+                    cache_key = JSON.stringify({ route, params, authenticate, handle_error, max_retry })
+                    check_cache_time = Date.now()
+                    if (this.cache[cache_key] != undefined && check_cache_time - this.cache[cache_key].time <= this.cache_max && no_cache != true) {
+                        try {
+                            console.log('Cache hit')
+                            if (this.cache[cache_key].content == null) {
+                                // There is an existing request, so wait for it
+                                console.log("Cache wait")
+                                // Wait for 1 second
+                                await this.sleep(1000)
+                                if (this.cache[cache_key].content == null) {
+                                    console.log("Cache wait timeout.")
+                                } else {
+                                    console.log("Cache wait return")
+                                    return this.cache[cache_key].content
+                                }
+                            } else {
+                                return this.cache[cache_key].content
+                            }
+                        } catch {
+                            console.log('Cache hit, but failed to return')
+                            delete this.cache[cache_key]
+                        }
+                    } else {
+                        delete this.cache[cache_key]
+                    }
+
+                    // Register cache entry
+                    this.cache[cache_key] = {
+                        time: check_cache_time,
+                        content: null
+                    }
+
+                    // Clear other caches
+                    for (var key in this.cache) {
+                        if (check_cache_time - this.cache[key].time > this.cache_max) {
+                            delete this.cache[key]
+                        }
+                    }
+                    // Cache finish
+
+                } else {
+                    // In case of a non-cached request, clear the cache 
+                    // (because it will usually change some data and make the cache inaccurate)
+                    // Examples: log in, follow, unfollow, etc.
+                    this.cache = {}
+                }
+
                 this.pullCredentials()
                 if (authenticate == true) {
                     params.uuid = this.user.uuid
@@ -120,6 +180,19 @@ function GenerateInstall() {
                     }
                     return undefined
                 }
+
+                if (!no_cache) {
+                    // Record cache
+                    if (res.data.code >= 0 && !no_cache) {
+                        this.cache[cache_key] = {
+                            time: check_cache_time,
+                            content: res.data
+                        }
+                    }
+                    // Record finish
+                }
+
+
                 if (handle_error == true) {
                     if (res.data.code < 0) {
                         if ([-107, -108, -109].includes(res.data.code) == true) {
@@ -163,7 +236,7 @@ function GenerateInstall() {
                             name,
                             description,
                             userid
-                        }
+                        },
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -174,7 +247,8 @@ function GenerateInstall() {
                 },
                 async getUserProfile(uuid) {
                     let res = await Vue.prototype.$nam.requestAPI('/user/get_profile', {
-                        params: { target: uuid }
+                        params: { target: uuid },
+                        no_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -189,8 +263,9 @@ function GenerateInstall() {
                 async getFollowing(uuid = null) {
                     let res = await Vue.prototype.$nam.requestAPI('/user/get_following', {
                         params: {
-                            target: uuid
-                        }
+                            target: uuid,
+                        },
+                        no_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -201,7 +276,8 @@ function GenerateInstall() {
                     let res = await Vue.prototype.$nam.requestAPI('/user/get_followers', {
                         params: {
                             target: uuid
-                        }
+                        },
+                        no_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -209,7 +285,9 @@ function GenerateInstall() {
                     return res.followers
                 },
                 async getPinned() {
-                    let res = await Vue.prototype.$nam.requestAPI('/user/get_pinned', {})
+                    let res = await Vue.prototype.$nam.requestAPI('/user/get_pinned', {
+                        no_cache: false
+                    })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
                     }
@@ -219,7 +297,8 @@ function GenerateInstall() {
                     let res = await Vue.prototype.$nam.requestAPI('/user/is_following', {
                         params: {
                             target: uuid
-                        }
+                        },
+                        no_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -230,7 +309,8 @@ function GenerateInstall() {
                     let res = await Vue.prototype.$nam.requestAPI('/user/is_follower', {
                         params: {
                             target: uuid
-                        }
+                        },
+                        no_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -241,7 +321,8 @@ function GenerateInstall() {
                     let res = await Vue.prototype.$nam.requestAPI('/user/is_pinned', {
                         params: {
                             target: uuid
-                        }
+                        },
+                        no_cache: false
                     })
                     if (res == undefined || res == null) {
                         throw new Error('Could not complete the request')
@@ -296,22 +377,23 @@ function GenerateInstall() {
                     this._invokeUserStatusChange()
                     return res
                 },
-                _userStatusListeners: {},
+                _userStatusListeners: [],
                 addUserStatusListener(that, func) {
-                    this._userStatusListeners[that] = func
-                    that.destroyed = () => {
-                        this.removeUserStatusListener(that)
-                    }
+                    let id = this._userStatusListeners.length
+                    this._userStatusListeners[id] = func
+                    return id
                 },
-                removeUserStatusListener(that) {
-                    delete this._userStatusListeners[that]
+                removeUserStatusListener(id) {
+                    delete this._userStatusListeners[id]
                 },
                 _invokeUserStatusChange() {
                     for (var listener in this._userStatusListeners) {
-                        try {
-                            this._userStatusListeners[listener]()
-                        } catch {
-                            this.removeUserStatusListener(listener)
+                        if (listener) {
+                            try {
+                                this._userStatusListeners[listener]()
+                            } catch (e) {
+                                this.removeUserStatusListener(listener)
+                            }
                         }
                     }
                 },

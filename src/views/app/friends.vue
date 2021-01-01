@@ -77,10 +77,14 @@ export default {
     pinned: [],
     following: [],
     followers: [],
+    _listener: -1,
   }),
   methods: {
     reloadData() {
-      this.$nam.notification.success("Data updated","We've detected a change in your user data. It's now updated.");
+      this.$nam.notification.success(
+        "Data updated",
+        "We've detected a change in your user data. It's now updated."
+      );
       this.$nam.useractions.getFollowers().then((followers_uuids) => {
         if (followers_uuids.length < this.followers.length) {
           // Optimize for better user experience:
@@ -125,8 +129,14 @@ export default {
     },
   },
   mounted() {
-    this.$nam.useractions.addUserStatusListener(this, this.reloadData);
+    this._listener = this.$nam.useractions.addUserStatusListener(
+      this,
+      this.reloadData
+    );
     this.reloadData();
+  },
+  beforeDestroy() {
+    this.$nam.useractions.removeUserStatusListener(this._listener);
   },
 };
 </script>

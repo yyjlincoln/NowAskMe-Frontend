@@ -61,6 +61,7 @@ export default {
     userActionsDropdown: false,
     followed: false,
     pinned: false,
+    _listener: -1
   }),
   methods: {
     showActions() {
@@ -122,6 +123,15 @@ export default {
           });
       }
     },
+    userDataChanged() {
+      this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
+        console.log(followed);
+        this.followed = followed;
+      });
+      this.$nam.useractions.isPinned(this.user.uuid).then((pinned) => {
+        this.pinned = pinned;
+      });
+    },
   },
   props: {
     user: {
@@ -135,6 +145,8 @@ export default {
     },
   },
   mounted() {
+    window.debug = this
+    this._listener = this.$nam.useractions.addUserStatusListener(this, this.userDataChanged);
     this.$nam.useractions.isFollowing(this.user.uuid).then((followed) => {
       console.log(followed);
       this.followed = followed;
@@ -145,6 +157,7 @@ export default {
   },
   beforeDestroy() {
     this.userActionsDropdown = false;
+    this.$nam.useractions.removeUserStatusListener(this._listener)
   },
 };
 </script>
