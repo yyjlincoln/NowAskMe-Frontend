@@ -3,12 +3,13 @@
     <nam-page :unbounded="true">
       <div class="flex flex-row">
         <div>
-          <nam-text
-            subtitle="Friends"
-            title="Your friends"
-          ></nam-text>
+          <nam-text subtitle="Friends" title="Your friends"></nam-text>
         </div>
-        <a class="flex flex-col justify-end ml-20" href="#" @click.prevent="$router.push('/friends/add')">
+        <a
+          class="flex flex-col justify-end ml-20"
+          href="#"
+          @click.prevent="$router.push('/friends/add')"
+        >
           <span
             class="flex flex-row px-3 py-3 my-3 mx-3 rounded-md shadow text-white bg-gradient"
           >
@@ -75,8 +76,17 @@
           </div>
         </nam-area>
       </div>
-      <nam-area title="Couldn't find your friends? Try adding them 🔍" config_class="w-full">
-        <span class="font-xl">You can always search for your friends by clicking "add", or simply tap <router-link to='/friends/add' class="underline">here</router-link></span>
+      <nam-area
+        title="Couldn't find your friends? Try adding them 🔍"
+        config_class="w-full"
+      >
+        <span class="font-xl"
+          >You can always search for your friends by clicking "add", or simply
+          tap
+          <router-link to="/friends/add" class="underline"
+            >here</router-link
+          ></span
+        >
       </nam-area>
     </nam-page>
   </div>
@@ -112,36 +122,48 @@ export default {
           // But that may secrafise efficiency :)
           this.followers = [];
         }
-        for (var i in followers_uuids) {
+        let f = (i) => {
+          // This avoids the issue of i
           this.$nam.useractions
             .getUserProfile(followers_uuids[i])
             .then((profile) => {
               Vue.set(this.followers, i, profile);
             });
+        };
+        for (var i in followers_uuids) {
+          f(i);
         }
       });
       this.$nam.useractions.getFollowing().then((following_uuids) => {
         if (following_uuids.length < this.following.length) {
           this.following = [];
         }
-        for (var i in following_uuids) {
+        let f = (i) => {
+          // This avoids the issue of i
           this.$nam.useractions
             .getUserProfile(following_uuids[i])
             .then((profile) => {
               Vue.set(this.following, i, profile);
             });
+        };
+        for (var i in following_uuids) {
+          f(i);
         }
       });
       this.$nam.useractions.getPinned().then((pinned_uuids) => {
         if (pinned_uuids.length < this.pinned.length) {
           this.pinned = [];
         }
-        for (var i in pinned_uuids) {
+        let f = (i) => {
+          // This avoids the issue of i
           this.$nam.useractions
             .getUserProfile(pinned_uuids[i])
             .then((profile) => {
               Vue.set(this.pinned, i, profile);
             });
+        };
+        for (var i in pinned_uuids) {
+          f(i);
         }
       });
     },
