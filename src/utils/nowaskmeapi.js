@@ -138,6 +138,11 @@ function GenerateInstall() {
                                 let wait_time = 0;
                                 while (wait_time <= this.cache_max_wait && this.cache[cache_key].content == null) {
                                     console.log('Cache still waiting')
+                                    try {
+                                        this.cache = JSON.parse(localStorage.getItem("nam_cache"))
+                                    } catch {
+                                        this.cache = {}
+                                    }
                                     await this.sleep(this.cache_wait_period)
                                     wait_time += this.cache_wait_period
                                 }
