@@ -512,7 +512,7 @@ function GenerateInstall() {
                 },
                 async checkLoginStatus() {
                     try {
-
+                        
                         let res = await this.checkScope({
                             handle_error: false
                         })
@@ -523,6 +523,15 @@ function GenerateInstall() {
                     } catch {
                         return false
                     }
+                },
+                async requestQR() {
+                    let res = await Vue.prototype.$nam.requestAPI('/auth/generate_qr', {
+                        authenticate: false
+                    })
+                    if (res == null || res == undefined) {
+                        throw new Error("Could not complete the request")
+                    }
+                    return res.requestid
                 },
                 async logout() {
                     Vue.prototype.$nam.user = {}

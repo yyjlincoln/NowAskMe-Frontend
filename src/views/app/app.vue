@@ -84,7 +84,7 @@
         <!-- Pseudo element to hold the space for vs-sidebar -->
       </div>
       <transition name="slide-left">
-        <router-view></router-view>
+        <router-view class="w-full"></router-view>
       </transition>
     </div>
     <nam-footer></nam-footer>

@@ -29,7 +29,7 @@
               <i class="bx bxs-chevron-down-circle"></i>
             </vs-button>
             <template #tooltip :border="false">
-              <div class="w-full flex flex-col">
+              <div class="w-full flex flex-col" v-if="show_actions">
                 <a
                   class="text-md font-bold rounded-md px-2 my-1"
                   @click.prevent="toggleFollow"
@@ -41,6 +41,12 @@
                   @click.prevent="togglePin"
                   href="#"
                   >{{ pinned ? "Unpin" : "Pin" }}</a
+                >
+                <a
+                  class="text-md font-bold rounded-md px-2 my-1"
+                  @click.prevent="showUserProfile"
+                  href="#"
+                  >Profile</a
                 >
               </div>
             </template>
@@ -122,6 +128,11 @@ export default {
             );
           });
       }
+    },
+    async showUserProfile() {
+      this.userActionsDropdown = false;
+      await this.$nam.sleep(300)
+      this.$router.push("/user/" + this.user.uuid);
     },
     userDataChanged(uuids) {
       if (!uuids || uuids.includes(this.user.uuid)) {

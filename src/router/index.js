@@ -19,6 +19,7 @@ import post from '../views/app/post.vue'
 import friends_add from '../views/app/friends_add.vue'
 import login_qr from '../views/auth/qr.vue'
 import login_password from '../views/auth/password.vue'
+import user_profile from '../views/user/profile.vue'
 
 Vue.use(VueRouter)
 
@@ -81,6 +82,11 @@ const routes = [
         name: 'friends_add',
         path: '/friends/add',
         component: friends_add
+      },
+      {
+        name:'user_profile',
+        path:'/user/:uuid',
+        component: user_profile
       }
     ]
   },
