@@ -34,9 +34,9 @@
         <div class="flex flex-col">
           <p class="font-bold">Only search with:</p>
           <div class="flex flex-row">
-            <a href="#" @click="term = '#'" class="mr-2 underline">userid</a>
-            <a href="#" @click="term = '!'" class="mx-2 underline">name</a>
-            <a href="#" @click="term = '$'" class="mx-2 underline"
+            <a href="#" @click.prevent="term = '#'" class="mr-2 underline">userid</a>
+            <a href="#" @click.prevent="term = '!'" class="mx-2 underline">name</a>
+            <a href="#" @click.prevent="term = '$'" class="mx-2 underline"
               >exact uuid</a
             >
           </div>
