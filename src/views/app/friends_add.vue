@@ -30,11 +30,17 @@
           status="Updating results..."
         ></nam-loading
       ></transition>
-      <nam-tools title="Didn't work? Try searching using uuid or userid.">
-        <p>
-          This will make your results more accurate, and therefore easier to
-          find your friend.
-        </p>
+      <nam-tools title="Search options">
+        <div class="flex flex-col">
+          <p class="font-bold">Only search with:</p>
+          <div class="flex flex-row">
+            <a href="#" @click="term = '#'" class="mr-2 underline">userid</a>
+            <a href="#" @click="term = '!'" class="mx-2 underline">name</a>
+            <a href="#" @click="term = '$'" class="mx-2 underline"
+              >exact uuid</a
+            >
+          </div>
+        </div>
       </nam-tools>
       <nam-tools title="Adding others?">
         <div class="flex flex-col">
