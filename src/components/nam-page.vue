@@ -3,7 +3,8 @@
     <!-- Deleted justify-center -->
     <div
       v-if="global_centered"
-      class="relative min-h-screen flex flex-col justify-center w-fit h-fit px-10 py-10 mx-auto"
+      class="min-h-screen flex flex-col justify-center w-fit h-fit px-10 py-10 mx-auto"
+      :class="absolute ? 'absolute' : 'relative'"
     >
       <div class="flex flex-col h-full w-full">
         <div class="mx-auto">
@@ -40,6 +41,9 @@ export default {
       default: false,
     },
     global_centered: {
+      default: false,
+    },
+    absolute: {
       default: false,
     },
   },

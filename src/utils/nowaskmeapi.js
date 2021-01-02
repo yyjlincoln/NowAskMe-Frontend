@@ -220,10 +220,14 @@ function GenerateInstall() {
 
                 if (!no_cache) {
                     // Record cache
-                    if (res.data.code >= 0 && !no_cache) {
-                        this.cache[cache_key] = {
-                            time: check_cache_time,
-                            content: res.data
+                    if (!no_cache) {
+                        if (res.data.code >= 0) {
+                            this.cache[cache_key] = {
+                                time: check_cache_time,
+                                content: res.data
+                            }
+                        } else {
+                            delete this.cache[cache_key]
                         }
                     }
                     // Record finish
@@ -512,7 +516,7 @@ function GenerateInstall() {
                 },
                 async checkLoginStatus() {
                     try {
-                        
+
                         let res = await this.checkScope({
                             handle_error: false
                         })
