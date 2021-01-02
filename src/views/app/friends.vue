@@ -37,11 +37,16 @@
               friend.description
             }}</span>
           </nam-user>
-          <div v-if="pinned.length == 0">
+          <div v-if="pinned.length == 0 && !loading.pinned">
             <span class="font-bold text-gray-500"
               >Oops...We can't find any...</span
             >
           </div>
+          <nam-loading
+            :as_full_page="false"
+            :show_logo="false"
+            v-if="loading.pinned"
+          ></nam-loading>
         </nam-area>
         <nam-area title="Following" config_class="max-w-md">
           <nam-user
@@ -53,11 +58,16 @@
               friend.description
             }}</span>
           </nam-user>
-          <div v-if="following.length == 0">
+          <div v-if="following.length == 0 && !loading.following">
             <span class="font-bold text-gray-500"
               >Oops...We can't find any...</span
             >
           </div>
+          <nam-loading
+            :as_full_page="false"
+            :show_logo="false"
+            v-if="loading.following"
+          ></nam-loading>
         </nam-area>
         <nam-area title="Your followers" config_class="max-w-md">
           <nam-user
@@ -69,11 +79,16 @@
               friend.description
             }}</span>
           </nam-user>
-          <div v-if="followers.length == 0">
+          <div v-if="followers.length == 0 && !loading.followers">
             <span class="font-bold text-gray-500"
               >Oops...We can't find any...</span
             >
           </div>
+          <nam-loading
+            :as_full_page="false"
+            :show_logo="false"
+            v-if="loading.followers"
+          ></nam-loading>
         </nam-area>
       </div>
       <nam-area
@@ -98,14 +113,20 @@ import NamPage from "../../components/nam-page.vue";
 import namText from "../../components/nam-text.vue";
 import NamUser from "../../components/nam-user.vue";
 import Vue from "vue";
+import NamLoading from "../../components/nam-loading.vue";
 export default {
-  components: { namText, NamPage, NamArea, NamUser },
+  components: { namText, NamPage, NamArea, NamUser, NamLoading },
   data: () => ({
     friends: [],
     pinned: [],
     following: [],
     followers: [],
     _listener: -1,
+    loading: {
+      followers: true,
+      following: true,
+      pinned: true,
+    },
   }),
   methods: {
     reloadData() {
@@ -113,7 +134,11 @@ export default {
       //   "Data updated",
       //   "We've detected a change in your user data. It's now updated."
       // );
+      this.loading.followers = true;
+      this.loading.following = true;
+      this.loading.pinned = true;
       this.$nam.useractions.getFollowers().then((followers_uuids) => {
+        this.loading.followers = false;
         if (followers_uuids.length < this.followers.length) {
           // Optimize for better user experience:
           // If the length is greater or equal, then it will be overwritten
@@ -135,6 +160,7 @@ export default {
         }
       });
       this.$nam.useractions.getFollowing().then((following_uuids) => {
+        this.loading.following = false;
         if (following_uuids.length < this.following.length) {
           this.following = [];
         }
@@ -151,6 +177,7 @@ export default {
         }
       });
       this.$nam.useractions.getPinned().then((pinned_uuids) => {
+        this.loading.pinned = false;
         if (pinned_uuids.length < this.pinned.length) {
           this.pinned = [];
         }
@@ -169,7 +196,7 @@ export default {
     },
     UserStatusChanged(uuids) {
       if (!uuids || uuids.includes(this.$nam.user.uuid)) {
-        this.reloadData()
+        this.reloadData();
       }
     },
   },

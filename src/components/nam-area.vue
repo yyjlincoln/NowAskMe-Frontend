@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="px-5 py-5 rounded-md w-fit flex flex-col mx-5 my-5"
+      class="px-5 py-5 rounded-md w-fit flex flex-col mx-5 my-5 overflow-hidden"
       :class="
         background_class + ' ' + config_class + ' ' + shadow "
     >

@@ -35,11 +35,11 @@ const routes = [
   },
   {
     name: 'login_qr',
-    path:'/login/qr',
+    path: '/login/qr',
     component: login_qr
   },
   {
-    name:'login_password',
+    name: 'login_password',
     path: '/login/password',
     component: login_password
   },
@@ -84,8 +84,8 @@ const routes = [
         component: friends_add
       },
       {
-        name:'user_profile',
-        path:'/user/:uuid',
+        name: 'user_profile',
+        path: '/user/:uuid',
         component: user_profile
       }
     ]
@@ -132,7 +132,10 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior() {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router

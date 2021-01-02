@@ -32,7 +32,7 @@
           class="mt-10"
           :as_full_page="false"
           :show_logo="false"
-          status="Loading Q&A"
+          status="Q&A [TODO]"
         ></nam-loading>
         <!-- TODO -->
       </div>
@@ -54,9 +54,8 @@ export default {
     loadingStatus: "Loading Profile...",
   }),
   mounted() {
-    console.log(this.$route);
     this.uuid = this.$route.params.uuid;
-    if (!this.uuid) {
+    if (!this.uuid || this.uuid == "me") {
       this.uuid = this.$nam.user.uuid;
     }
     this.$nam.useractions
