@@ -31,12 +31,18 @@
             >
           </div>
         </nam-area> -->
-        <nam-area title="Pinned📌" config_class="max-w-md">
-          <nam-user v-for="friend in pinned" :key="friend.uuid" :user="friend">
-            <span class="font-bold text-gray-500">{{
-              friend.description
-            }}</span>
-          </nam-user>
+        <nam-area title="Pinned📌" config_class="max-w-full">
+          <div class="flex flex-row flex-wrap w-full">
+            <nam-user
+              v-for="friend in pinned"
+              :key="friend.uuid"
+              :user="friend"
+            >
+              <span class="font-bold text-gray-500">{{
+                friend.description
+              }}</span>
+            </nam-user>
+          </div>
           <div v-if="pinned.length == 0 && !loading.pinned">
             <span class="font-bold text-gray-500"
               >Oops...We can't find any...</span
@@ -48,16 +54,18 @@
             v-if="loading.pinned"
           ></nam-loading>
         </nam-area>
-        <nam-area title="Following" config_class="max-w-md">
-          <nam-user
-            v-for="friend in following"
-            :key="friend.uuid"
-            :user="friend"
-          >
-            <span class="font-bold text-gray-500">{{
-              friend.description
-            }}</span>
-          </nam-user>
+        <nam-area title="Following" config_class="max-w-full">
+          <div class="flex flex-row flex-wrap w-full">
+            <nam-user
+              v-for="friend in following"
+              :key="friend.uuid"
+              :user="friend"
+            >
+              <span class="font-bold text-gray-500">{{
+                friend.description
+              }}</span>
+            </nam-user>
+          </div>
           <div v-if="following.length == 0 && !loading.following">
             <span class="font-bold text-gray-500"
               >Oops...We can't find any...</span
@@ -69,16 +77,18 @@
             v-if="loading.following"
           ></nam-loading>
         </nam-area>
-        <nam-area title="Your followers" config_class="max-w-md">
-          <nam-user
-            v-for="friend in followers"
-            :key="friend.uuid"
-            :user="friend"
-          >
-            <span class="font-bold text-gray-500">{{
-              friend.description
-            }}</span>
-          </nam-user>
+        <nam-area title="Your followers" config_class="max-w-full">
+          <div class="flex flex-row flex-wrap w-full">
+            <nam-user
+              v-for="friend in followers"
+              :key="friend.uuid"
+              :user="friend"
+            >
+              <span class="font-bold text-gray-500">{{
+                friend.description
+              }}</span>
+            </nam-user>
+          </div>
           <div v-if="followers.length == 0 && !loading.followers">
             <span class="font-bold text-gray-500"
               >Oops...We can't find any...</span

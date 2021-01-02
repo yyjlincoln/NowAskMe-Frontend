@@ -9,9 +9,9 @@ function GenerateInstall() {
     return function (Vue, options) {
         options
         Vue.prototype.$nam = {
-            // server: "http://localhost:5000",
-            version: 'Major-2/1/2021',
-            server: "https://apis.nowask.me",
+            server: "http://localhost:5000",
+            version: 'Major-2/1/2021-night',
+            // server: "https://apis.nowask.me",
             that: null,
             lastPath: '',
             user: {
@@ -446,6 +446,17 @@ function GenerateInstall() {
                         }
                     }
                 },
+                async search(term){
+                    let res = await Vue.prototype.$nam.requestAPI("/user/search",{
+                        params:{
+                            term
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.results
+                }
 
 
             },
