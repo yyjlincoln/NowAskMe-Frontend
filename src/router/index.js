@@ -21,7 +21,7 @@ import login_qr from '../views/auth/qr.vue'
 import login_password from '../views/auth/password.vue'
 import user_profile from '../views/user/profile.vue'
 import licenses from '../views/legal/licenses.vue'
-
+import me from '../views/app/me.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -83,6 +83,11 @@ const routes = [
         name: 'friends_add',
         path: '/friends/add',
         component: friends_add
+      },
+      {
+        name: 'me',
+        path: '/me',
+        component: me
       },
       {
         name: 'user_profile',

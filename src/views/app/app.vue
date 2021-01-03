@@ -62,7 +62,7 @@
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
-                @click="$router.push('/user/me')"
+                @click="$router.push('/me')"
               >
                 <i class="bx bxs-user-account mx-auto"></i>
               </div>
