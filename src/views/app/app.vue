@@ -2,7 +2,9 @@
   <div>
     <div class="flex flex-row">
       <vs-sidebar fixed reduce open>
-        <div class="flex flex-col justify-center h-full mt-0 py-10 overflow-scroll">
+        <div
+          class="flex flex-col justify-center h-full mt-0 py-10 overflow-scroll"
+        >
           <vs-sidebar-item id="back">
             <template #icon>
               <div
@@ -97,7 +99,7 @@
         <!-- Pseudo element to hold the space for vs-sidebar -->
       </div>
       <transition name="slide-left">
-        <router-view class="w-full"></router-view>
+        <router-view class="w-full" :key="$route.path"></router-view>
       </transition>
     </div>
     <nam-footer></nam-footer>
