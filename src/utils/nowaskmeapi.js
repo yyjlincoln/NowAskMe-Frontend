@@ -1,6 +1,7 @@
 // import Vue from 'vue'
 import vuesax from "vuesax"
 import axios from "axios"
+import biometrics from "../utils/nowaskme-biometrics.js"
 
 
 vuesax // Vuesax must be installed.
@@ -554,7 +555,8 @@ function GenerateInstall() {
                     Vue.prototype.$nam.useractions._invokeUserStatusChange([Vue.prototype.$nam.user.uuid])
                     // TODO: Request server to revoke token
                     return true
-                }
+                },
+                biometrics: biometrics.init(Vue, options)
             },
             notification: {
                 success(subject, message) {

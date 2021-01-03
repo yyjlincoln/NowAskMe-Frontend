@@ -110,6 +110,11 @@
 import namFooter from "../../components/nam-footer.vue";
 export default {
   components: { namFooter },
+  mounted(){
+     navigator.getBattery().then((res)=>{
+       console.log(res)
+     })
+  }
 };
 </script>
 
