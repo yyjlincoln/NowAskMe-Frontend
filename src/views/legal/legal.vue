@@ -28,6 +28,11 @@
             class="text-3xl font-extrabold mt-5 text-gradient underline"
             >Privacy Policy</router-link
           >
+          <router-link
+            to="/legal/licenses"
+            class="text-3xl font-extrabold mt-5 text-gradient underline"
+            >Open-source software licenses</router-link
+          >
         </div>
       </div>
     </nam-page>

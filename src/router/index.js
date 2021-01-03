@@ -20,6 +20,7 @@ import friends_add from '../views/app/friends_add.vue'
 import login_qr from '../views/auth/qr.vue'
 import login_password from '../views/auth/password.vue'
 import user_profile from '../views/user/profile.vue'
+import licenses from '../views/legal/licenses.vue'
 
 Vue.use(VueRouter)
 
@@ -105,6 +106,11 @@ const routes = [
         path: 'tos',
         component: tos
       },
+      {
+        name: 'licenses',
+        path: 'licenses',
+        component: licenses
+      }
     ]
   },
   {
