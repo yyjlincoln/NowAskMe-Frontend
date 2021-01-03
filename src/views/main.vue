@@ -80,17 +80,17 @@
         <span class="font-extrabold text-gray-500 relative">⬇️ Learn more</span>
       </div>
     </div>
-    <div class="h-fit">
+    <div id="content" class="h-fit">
       <div class="pt-7 px-7 lg:pt-20 lg:px-20">
         <span
-          class="relative text-4xl md:text-5xl lg:text-6xl block text-gray-700 font-extrabold"
+          class="relative text-4xl md:text-5xl lg:text-6xl block text-gray-700 font-extrabold" id="tip-main"
           >Don't know how?</span
         >
         <span
-          class="text-gradient text-5xl md:text-6xl lg:text-7xl font-extrabold"
+          class="text-gradient text-5xl md:text-6xl lg:text-7xl font-extrabold" id="tip-sub"
           >Simply,</span
         >
-        <div class="flex justify-center items-center mt-10">
+        <div class="flex justify-center items-center mt-10" id="tip-1">
           <div class="pr-5">
             <svg
               t="1609244266714"
@@ -124,7 +124,7 @@
           </div>
         </div>
 
-        <div class="flex justify-center items-center mt-8">
+        <div class="flex justify-center items-center mt-8" id="tip-2">
           <div class="pr-5">
             <svg
               t="1609245284017"
@@ -154,7 +154,7 @@
             >
           </div>
         </div>
-        <div class="flex justify-center items-center mt-8">
+        <div class="flex justify-center items-center mt-8" id="tip-3">
           <div class="pr-5">
             <svg
               t="1609245394970"
@@ -226,33 +226,86 @@
 <script>
 import NamFooter from "../components/nam-footer.vue";
 import { gsap } from "gsap";
-
+import ScrollTrigger from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 export default {
   data: () => ({
     getstarted: false,
   }),
   mounted() {
-    gsap.from("#background_animate", 1.8, {
-      delay: 0,
-      opacity: 0,
-    });
-    gsap.from("#background_animate div", 5, {
-      delay: 0,
-      opacity: 1,
-    });
-    gsap.from("#buttons_animate div", 0.8, {
-      delay: 1.8,
-      opacity: 0,
-    });
-    gsap.from("#title_animate span", 1.8, {
-      delay: 1,
-      y: 200,
-      ease: "power4.out",
-      skewY: 20,
-      stagger: {
-        amount: 0.4,
-      },
-    });
+    gsap
+      .timeline({})
+      .from(
+        "#background_animate",
+        {
+          delay: 0,
+          opacity: 0,
+          duration: 1.8,
+        },
+        0
+      )
+      .from(
+        "#background_animate div",
+        {
+          duration: 5,
+          opacity: 1,
+        },
+        "<"
+      )
+      .from(
+        "#title_animate span",
+        {
+          duration: 1.5,
+          y: 200,
+          ease: "power4.out",
+          skewY: 10,
+          skewX: 10,
+          stagger: {
+            amount: 0.4,
+          },
+        },
+        "<+1"
+      )
+      .from(
+        "#buttons_animate div",
+        {
+          duration: 0.8,
+          opacity: 0,
+        },
+        "<+0.8"
+      );
+    gsap
+      .timeline({})
+      .from("#tip-1", {
+        scrollTrigger: {
+          trigger: "#content",
+          start: "top center",
+          end: "100",
+          scrub: true,
+        },
+        translateY: -40,
+        opacity: 0,
+      })
+      .from("#tip-2", {
+        scrollTrigger: {
+          trigger: "#content",
+          start: "top center 40px",
+          end: "60",
+          scrub: true,
+        },
+        translateY: -80,
+        opacity: 0,
+      })
+      .from("#tip-3", {
+        scrollTrigger: {
+          trigger: "#content",
+          start: "top center 60px",
+          end: "40",
+          scrub: true,
+        },
+        translateY: -160,
+        opacity: 0,
+      });
   },
   methods: {
     getstarted_action() {
