@@ -11,7 +11,7 @@
         <div class="w-screen h-screen bg-white opacity-50 absolute"></div>
         <img
           class="object-cover w-screen h-screen"
-          src="https://images.unsplash.com/photo-1566125882500-87e10f726cdc"
+          src="https://images.unsplash.com/photo-1566125882500-87e10f726cdc?ixlib=rb-1.2.1&q=80&fm=jpg&w=1920"
         />
       </div>
       <div
