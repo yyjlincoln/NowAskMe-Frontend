@@ -27,27 +27,32 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: main
+    component: main,
+    meta: { title: "Nowaskme" }
   },
   {
     name: 'login',
     path: '/get-started',
-    component: get_started
+    component: get_started,
+    meta: { title: "Get started" }
   },
   {
     name: 'login_qr',
     path: '/login/qr',
-    component: login_qr
+    component: login_qr,
+    meta: { title: "Login via QR Code" }
   },
   {
     name: 'login_password',
     path: '/login/password',
-    component: login_password
+    component: login_password,
+    meta: { title: "Login via password" }
   },
   {
     name: 'verification',
     path: '/verification',
-    component: verification
+    component: verification,
+    meta: { title: "Verify your email address" }
   },
   {
     name: 'app',
@@ -57,32 +62,38 @@ const routes = [
       {
         name: 'dashboard',
         path: '/dashboard',
-        component: dashboard
+        component: dashboard,
+        meta: { title: "Dashboard" }
       },
       {
         name: 'friends',
         path: '/friends',
-        component: friends
+        component: friends,
+        meta: { title: "Friends" }
       },
       {
         name: 'box',
         path: '/box',
-        component: box
+        component: box,
+        meta: { title: "Box" }
       },
       {
         name: 'settings',
         path: '/settings',
-        component: settings
+        component: settings,
+        meta: { title: "Settings" }
       },
       {
         name: 'post',
         path: '/post',
-        component: post
+        component: post,
+        meta: { title: "Post a new question" }
       },
       {
         name: 'friends_add',
         path: '/friends/add',
-        component: friends_add
+        component: friends_add,
+        meta: { title: "Search for a friend" }
       },
       {
         name: 'me',
@@ -92,7 +103,8 @@ const routes = [
       {
         name: 'user_profile',
         path: '/user/:uuid',
-        component: user_profile
+        component: user_profile,
+        meta: { title: "Profile" }
       }
     ]
   },
@@ -104,24 +116,28 @@ const routes = [
       {
         name: 'privacy',
         path: 'privacy',
-        component: privacy
+        component: privacy,
+        meta: { title: "Legal" }
       },
       {
         name: 'tos',
         path: 'tos',
-        component: tos
+        component: tos,
+        meta: { title: "Terms of Service" }
       },
       {
         name: 'licenses',
         path: 'licenses',
-        component: licenses
+        component: licenses,
+        meta: { title: "Licenses" }
       }
     ]
   },
   {
     name: 'setup',
     path: '/setup',
-    component: setup
+    component: setup,
+    meta: { title: "Setup your account" }
   },
   {
     name: 'logout',
@@ -131,12 +147,14 @@ const routes = [
   {
     path: '/diagnostics',
     name: 'diagnostics',
-    component: diagnostics
+    component: diagnostics,
+    meta: { title: "Diagnostics" }
 
   },
   {
     path: '*',
-    component: page_unavailable
+    component: page_unavailable,
+    meta: { title: "Error" }
   }
 ]
 
@@ -147,6 +165,13 @@ const router = new VueRouter({
   scrollBehavior() {
     return { x: 0, y: 0 }
   }
+})
+
+router.afterEach((to) => {
+  // Wait for the next DOM update cycle
+  Vue.nextTick(() => {
+    document.title = to.meta.title ? to.meta.title + " - Anonymous Q&A" : "Nowaskme - Anonymous Q&A"
+  })
 })
 
 export default router
