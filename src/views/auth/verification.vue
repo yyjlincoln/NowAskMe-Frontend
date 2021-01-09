@@ -274,7 +274,10 @@ export default {
               "Welcome back, " + res.name,
               "You will be redirected soon."
             );
-            this.$router.push("/setup");
+            this.$router.push({
+              path: "/setup",
+              query: { then: this.$route.query.then },
+            });
           })
           .catch((e) => {
             console.error(e);
@@ -289,7 +292,11 @@ export default {
               "Welcome back, " + res.name,
               "You will be redirected soon."
             );
-            this.$router.push("/dashboard");
+            this.$router.push({
+              path: this.$route.query.then
+                ? this.$route.query.then
+                : "/dashboard",
+            });
           })
           .catch((e) => {
             console.error(e);

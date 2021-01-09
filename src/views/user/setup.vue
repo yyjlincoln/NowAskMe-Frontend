@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nam-page :unbounded='true'>
+    <nam-page :unbounded="true">
       <nam-text
         :subtitle="name ? 'Hello, ' + name : 'Complete setup'"
         title="Let your friends know who you are"
@@ -106,12 +106,16 @@ export default {
             "Successfully updated profile",
             res.message
           );
-          await this.$nam.useractions.getProfile()
-          this.$nam.pullCredentials()
-          this.$router.push("/dashboard");
+          await this.$nam.useractions.getProfile();
+          this.$nam.pullCredentials();
+          this.$router.push({
+            path: this.$route.query.then
+              ? this.$route.query.then
+              : "/dashboard",
+          });
         })
         .catch((e) => {
-          console.log(e)
+          console.log(e);
           this.$nam.notification.failed(
             "Could not update your profile",
             "An error occured."

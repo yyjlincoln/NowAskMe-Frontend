@@ -264,6 +264,9 @@ export default {
           email: this.email,
           register: this.register == 0 ? false : true,
         },
+        query:{
+          then: this.$route.query.then
+        }
       });
     },
     async checkLoginStatus() {
@@ -273,7 +276,7 @@ export default {
           "Welcome back!",
           "You're already logged in."
         );
-        setTimeout(() => {
+        setTimeout(() => {          
           this.$router.push("/dashboard");
         }, 1000);
       }

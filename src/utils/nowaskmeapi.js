@@ -119,6 +119,7 @@ function GenerateInstall() {
             async requestAPI(route, { params = {}, authenticate = true, handle_error = true, max_retry = 2, no_cache = true, clear_cache = true } = {}) {
                 let cache_key = ""
                 let check_cache_time = 0
+                let current_location = window.location.href // Added current_location to prevent the API from being error-handled when the user has already left the page
 
                 if (!no_cache) {
                     try {
@@ -202,7 +203,7 @@ function GenerateInstall() {
                     this.connected = true
                 } catch (e) {
                     this.logging.error(e)
-                    if (handle_error == true && max_retry > 0) {
+                    if (handle_error == true && max_retry > 0 && current_location == window.location.href) {
                         await this.sleep(1000)
                         return await this.requestAPI(route, {
                             params,
@@ -236,14 +237,14 @@ function GenerateInstall() {
                 }
 
 
-                if (handle_error == true) {
+                if (handle_error == true && current_location == window.location.href) {
                     if (res.data.code < 0) {
                         if ([-107, -108, -109].includes(res.data.code) == true) {
-                            this.that.$router.push('/get-started')
+                            this.that.$router.push({ path: '/get-started', query: { 'then': this.lastPath } })
                             Vue.prototype.$nam.notification.failed('Please login again (' + String(res.data.code) + ')', res.data.message)
                             // [TODO] Add query so after auth it returns
                         } else if ([-110].includes(res.data.code) == true) {
-                            this.that.$router.push('/get-started')
+                            this.that.$router.push({ path: '/get-started', query: { 'then': this.lastPath } })
                             this.notification.failed('Sorry, something unexpected happened. Please try to login again (' + String(res.data.code) + ')', res.data.message)
                         } else if ([-111].includes(res.data.code) == true) {
                             this.notification.failed("Access is denied.", "You don't have sufficient permission to complete this action. You are missing: " + String(res.data.scope))
@@ -447,9 +448,9 @@ function GenerateInstall() {
                         }
                     }
                 },
-                async search(term){
-                    let res = await Vue.prototype.$nam.requestAPI("/user/search",{
-                        params:{
+                async search(term) {
+                    let res = await Vue.prototype.$nam.requestAPI("/user/search", {
+                        params: {
                             term
                         }
                     })
