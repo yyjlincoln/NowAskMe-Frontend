@@ -6,7 +6,7 @@
         subtitle="We've sent you an email"
       ></nam-text>
       <div class="mt-1 md:mt-3 hidden md:block">
-        <form @submit.capture.prevent="nextAction">
+        <form @submit.prevent>
           <div
             class="my-5 md:my-10 w-full flex items-center justify-center text-base font-medium ontline-none"
           >
@@ -18,6 +18,7 @@
                 placeholder=""
                 @keyup="onOTPInput"
                 v-model="otp[0]"
+                @paste.prevent="pasteOTP"
               />
               <input
                 class="shadow mx-3 rounded-md bg-gray-200 relative w-20 h-20 rounded-md bg-transparent text-center font-xl font-extrabold px-3 text-3xl md:text-4xl text-gray-600 ontline-none uppercase"
@@ -26,6 +27,7 @@
                 placeholder=""
                 v-model="otp[1]"
                 @keyup="onOTPInput"
+                @paste.prevent="pasteOTP"
               />
               <input
                 class="shadow mx-3 rounded-md bg-gray-200 relative w-20 h-20 rounded-md bg-transparent text-center font-xl font-extrabold px-3 text-3xl md:text-4xl text-gray-600 ontline-none uppercase"
@@ -34,6 +36,7 @@
                 placeholder=""
                 v-model="otp[2]"
                 @keyup="onOTPInput"
+                @paste.prevent="pasteOTP"
               />
               <input
                 class="shadow mx-3 rounded-md bg-gray-200 relative w-20 h-20 rounded-md bg-transparent text-center font-xl font-extrabold px-3 text-3xl md:text-4xl text-gray-600 ontline-none uppercase"
@@ -42,6 +45,7 @@
                 placeholder=""
                 v-model="otp[3]"
                 @keyup="onOTPInput"
+                @paste.prevent="pasteOTP"
               />
               <input
                 class="shadow mx-3 rounded-md bg-gray-200 relative w-20 h-20 rounded-md bg-transparent text-center font-xl font-extrabold px-3 text-3xl md:text-4xl text-gray-600 ontline-none uppercase"
@@ -50,6 +54,7 @@
                 placeholder=""
                 v-model="otp[4]"
                 @keyup="onOTPInput"
+                @paste.prevent="pasteOTP"
               />
               <input
                 class="shadow mx-3 rounded-md bg-gray-200 relative w-20 h-20 rounded-md bg-transparent text-center font-xl font-extrabold px-3 text-3xl md:text-4xl text-gray-600 ontline-none uppercase"
@@ -57,8 +62,9 @@
                 maxlength="1"
                 placeholder=""
                 @keyup="onOTPInput"
-                @input="checkOTP"
+                @input="checkOTPEvent"
                 v-model="otp[5]"
+                @paste.prevent="pasteOTP"
               />
             </div>
             <div class="mx-2">
@@ -110,7 +116,7 @@
         </form>
       </div>
       <div class="mt-1 md:mt-3 block md:hidden">
-        <form @submit.capture.prevent="nextAction">
+        <form @submit.prevent>
           <div
             class="my-5 md:my-10 w-full flex items-center justify-center text-base font-medium ontline-none"
           >
@@ -210,6 +216,7 @@
 import NamPage from "../../components/nam-page.vue";
 import namText from "../../components/nam-text.vue";
 import NamTools from "../../components/nam-tools.vue";
+import Vue from "vue";
 export default {
   components: { namText, NamTools, NamPage },
   data: () => ({
@@ -251,40 +258,43 @@ export default {
       return true;
       //   console.log(event);
     },
-    checkOTP(event) {
+    checkOTPEvent(event) {
       if (event.data != null) {
-        this.verification_status = "checkingotp";
-        if (this.register == true) {
-          this.$nam.auth
-            .register(this.email, this.otp.join(""))
-            .then((res) => {
-              this.verification_status = "correctotp";
-              this.$nam.notification.success(
-                "Welcome back, " + res.name,
-                "You will be redirected soon."
-              );
-              this.$router.push("/setup");
-            })
-            .catch((e) => {
-              console.error(e);
-              this.verification_status = "incorrectotp";
-            });
-        } else {
-          this.$nam.auth
-            .checkOTP(this.email, this.otp.join(""))
-            .then((res) => {
-              this.verification_status = "correctotp";
-              this.$nam.notification.success(
-                "Welcome back, " + res.name,
-                "You will be redirected soon."
-              );
-              this.$router.push("/dashboard");
-            })
-            .catch((e) => {
-              console.error(e);
-              this.verification_status = "incorrectotp";
-            });
-        }
+        this.checkOTP();
+      }
+    },
+    checkOTP() {
+      this.verification_status = "checkingotp";
+      if (this.register == true) {
+        this.$nam.auth
+          .register(this.email, this.otp.join(""))
+          .then((res) => {
+            this.verification_status = "correctotp";
+            this.$nam.notification.success(
+              "Welcome back, " + res.name,
+              "You will be redirected soon."
+            );
+            this.$router.push("/setup");
+          })
+          .catch((e) => {
+            console.error(e);
+            this.verification_status = "incorrectotp";
+          });
+      } else {
+        this.$nam.auth
+          .checkOTP(this.email, this.otp.join(""))
+          .then((res) => {
+            this.verification_status = "correctotp";
+            this.$nam.notification.success(
+              "Welcome back, " + res.name,
+              "You will be redirected soon."
+            );
+            this.$router.push("/dashboard");
+          })
+          .catch((e) => {
+            console.error(e);
+            this.verification_status = "incorrectotp";
+          });
       }
     },
     onMobileOTPInput(event) {
@@ -295,6 +305,14 @@ export default {
       if (event.target.value.length == 6) {
         this.checkOTP(event);
       }
+    },
+    pasteOTP(event) {
+      let data = event.clipboardData.getData("Text");
+      for (var i = 0; i < 6; i++) {
+        Vue.set(this.otp, i, data[i] ? data[i] : "");
+      }
+      this.$nam.notification.success("Pasted OTP", "Checking OTP now...");
+      this.checkOTP(event);
     },
   },
 };
