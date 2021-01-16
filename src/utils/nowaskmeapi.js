@@ -489,6 +489,43 @@ function GenerateInstall() {
                     }
                     return res.post
                 },
+                async postStory(content, privacy) {
+                    let res = null
+                    if (privacy != null) {
+                        res = await Vue.prototype.$nam.requestAPI('/post/new_post', {
+                            params: {
+                                type: 'story',
+                                content: content,
+                                privacy: privacy
+                            }
+                        })
+                    } else {
+                        res = await Vue.prototype.$nam.requestAPI('/post/new_post', {
+                            params: {
+                                type: 'story',
+                                content: content
+                            }
+                        })
+                    }
+
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.postid
+
+                },
+                async deletePost(postid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/post/delete_post', {
+                        params: {
+                            postid: postid
+                        }
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return true
+
+                }
             },
             auth: {
                 async checkEmail(email) {

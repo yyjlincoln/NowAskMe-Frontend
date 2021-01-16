@@ -5,21 +5,12 @@
         <nam-text subtitle="Stream" title="What's happening?">
           <!-- TODO: Invitation code, Friend list, option to choose if that is anomonyous -->
         </nam-text>
-        <div class="flex flex-col justify-end ml-20">
-          <a
-            class="rounded-md bg-gradient px-3 py-3 my-3 mx-3 text-2xl text-white font-bold"
-            href="#"
-            @click.prevent="post"
-          >
-            <i class="bx bxs-send mx-auto"></i>
-            Post
-          </a>
-        </div>
       </div>
+      <nam-post :afterPost="updateStream"></nam-post>
       <!-- Main Content -->
       <div class="mt-10 min-w-full min-h-full w-fit h-fit overflow-hidden">
         <div v-for="post in posts" :key="post.postid">
-          <nam-stream-card :post="post"></nam-stream-card>
+          <nam-stream-card :post="post" :afterUpdate="updateStream"></nam-stream-card>
         </div>
         <div v-if="posts.length == 0">
           <p class="font-bold text-gray-500 text-center mt-10">
@@ -52,8 +43,9 @@ import NamText from "../../components/nam-text.vue";
 import Vue from "vue";
 import NamLoading from "../../components/nam-loading.vue";
 import NamTools from "../../components/nam-tools.vue";
+import NamPost from '../../components/nam-post.vue';
 export default {
-  components: { namPage, NamText, NamStreamCard, NamLoading, NamTools },
+  components: { namPage, NamText, NamStreamCard, NamLoading, NamTools, NamPost },
   methods: {
     post() {
       // Post something
@@ -74,7 +66,7 @@ export default {
           f(i);
         }
       });
-    },
+    }
   },
   data: () => ({
     posts: [],

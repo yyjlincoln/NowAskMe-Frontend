@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="flex flex-col rounded-md my-5 px-5 py-5 bg-gray-100 max-w-3xl"
-    >
+    <div class="flex flex-col rounded-md my-5 px-5 py-5 bg-gray-100 max-w-3xl">
       <nam-user
         :spacing="false"
         :show_userid="false"
@@ -10,13 +8,18 @@
         :user="user"
         :show_actions="false"
       >
-        <p>{{ post.type == "question" ? "Asked a new question" : "" }}</p>
+        <div class="flex flex-row">
+          <p>{{ post.type == "question" ? "Asked a new question" : "" }}</p>
+          <p>{{ post.type == "story" ? "Shared a story" : "" }}</p>
+          <a class="ml-5" href="#" @click.prevent="deletePost">Delete</a>
+        </div>
 
         <template #aside_name>
           <a
             class="text-gray-500"
             @click.prevent="fulltime = !fulltime"
             href="#"
+            v-if="updateTime || !updateTime"
           >
             {{ $nam.utils.timeFrom(post.time * 1000, fulltime) }}
           </a>
@@ -44,6 +47,7 @@ export default {
       default: null,
     },
     fulltime: false,
+    updateTime: true,
   }),
   props: {
     post: {
@@ -57,6 +61,18 @@ export default {
         time: 0,
       },
     },
+    afterUpdate:{
+      required: false
+    }
+  },
+  methods:{
+    deletePost(){
+      this.$nam.post.deletePost(this.post.postid).then(()=>{
+        if(this.afterUpdate){
+          this.afterUpdate()
+        }
+      })
+    }
   },
   mounted() {
     this.$nam.useractions
@@ -67,6 +83,9 @@ export default {
       .catch((e) => {
         console.log(e);
       });
+    setInterval(() => {
+      this.updateTime = !this.updateTime;
+    }, 30000);
   },
 };
 </script>
