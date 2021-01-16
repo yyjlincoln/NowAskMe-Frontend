@@ -476,6 +476,20 @@ function GenerateInstall() {
                     }
                     return res.stream
                 },
+                async getUserStream(uuid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/post/get_user_stream', {
+                        params: {
+                            target: uuid
+                        },
+                        // TODO Limit
+                        no_cache: false,
+                        clear_cache: false
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.stream
+                },
                 async getPost(postid) {
                     let res = await Vue.prototype.$nam.requestAPI('/post/get_post', {
                         params: {

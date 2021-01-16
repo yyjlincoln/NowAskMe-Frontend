@@ -120,7 +120,6 @@
 </template>
 
 <script>
-// import namPage from './nam-page.vue'
 import NamUser from "./nam-user.vue";
 export default {
   components: { NamUser },
@@ -140,7 +139,7 @@ export default {
       if (this.tale == "") {
         return;
       }
-      this.$nam.post.postStory(this.tale).then(() => {
+      this.$nam.post.postStory(this.tale, this.permission).then(() => {
         this.tale = "";
         this.permission = null;
         if (this.afterPost) {

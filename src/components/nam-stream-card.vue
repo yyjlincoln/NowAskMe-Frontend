@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="flex flex-col rounded-md my-5 px-5 py-5 bg-gray-100 max-w-3xl">
+    <div
+      class="flex flex-col rounded-md my-5 px-5 py-5 bg-gray-100"
+      :class="maxw ? 'max-w-3xl' : ''"
+    >
       <nam-user
         :spacing="false"
         :show_userid="false"
@@ -10,8 +13,27 @@
       >
         <div class="flex flex-row">
           <p>{{ post.type == "question" ? "Asked a new question" : "" }}</p>
-          <p>{{ post.type == "story" ? "Shared a story" : "" }}</p>
-          <a class="ml-5" href="#" @click.prevent="deletePost">Delete</a>
+          <p>{{ post.type == "story" ? "Shared a story" : " " }}</p>
+          <div class="ml-1">
+            <p>
+              {{ post.privacy == "followers" ? "with his/her followers" : "" }}
+            </p>
+            <p>
+              {{
+                post.privacy == "following"
+                  ? "with people who he/she follow"
+                  : ""
+              }}
+            </p>
+            <p>{{ post.privacy == "private" ? "with him/herself" : "" }}</p>
+          </div>
+          <a
+            class="ml-5"
+            href="#"
+            @click.prevent="deletePost"
+            v-if="post.uuid == $nam.user.uuid"
+            >Delete</a
+          >
         </div>
 
         <template #aside_name>
@@ -61,18 +83,21 @@ export default {
         time: 0,
       },
     },
-    afterUpdate:{
-      required: false
-    }
+    afterUpdate: {
+      required: false,
+    },
+    maxw: {
+      default: true,
+    },
   },
-  methods:{
-    deletePost(){
-      this.$nam.post.deletePost(this.post.postid).then(()=>{
-        if(this.afterUpdate){
-          this.afterUpdate()
+  methods: {
+    deletePost() {
+      this.$nam.post.deletePost(this.post.postid).then(() => {
+        if (this.afterUpdate) {
+          this.afterUpdate();
         }
-      })
-    }
+      });
+    },
   },
   mounted() {
     this.$nam.useractions

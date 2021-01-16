@@ -35,6 +35,25 @@
           status="Q&A [TODO]"
         ></nam-loading>
         <!-- TODO -->
+
+        <!-- Stream -->
+        <span class="font-extrabold text-4xl">Activities</span>
+        <nam-loading
+          status="Loading stream..."
+          v-if="loadingStream"
+          :as_full_page="false"
+          :show_logo="false"
+        ></nam-loading>
+        <div class="w-full mt-5">
+          <div v-for="post in posts" :key="post.uuid">
+            <div class="w-full">
+              <nam-stream-card :post="post"></nam-stream-card>
+            </div>
+          </div>
+        </div>
+        <span v-if="posts.length==0" class="text-center text-gray-700">
+          Oops. We couldn't find any activity.
+        </span>
       </div>
     </nam-page>
   </div>
@@ -46,12 +65,17 @@ import NamLoading from "../../components/nam-loading.vue";
 import namPage from "../../components/nam-page.vue";
 import NamText from "../../components/nam-text.vue";
 import NamUseractions from "../../components/nam-useractions.vue";
+import Vue from "vue";
+import NamStreamCard from "../../components/nam-stream-card.vue";
+
 export default {
   data: () => ({
     user: {},
     uuid: null,
     loading: true,
     loadingStatus: "Loading Profile...",
+    loadingStream: false,
+    posts: [],
   }),
   mounted() {
     this.uuid = this.$route.params.uuid;
@@ -67,8 +91,32 @@ export default {
       .catch(() => {
         this.loadingStatus = "An error occured.";
       });
+    this.updateStream();
   },
-  components: { namPage, NamText, NamLoading, NamArea, NamUseractions },
+  methods: {
+    updateStream() {
+      this.loadingStream = true;
+      this.$nam.post.getUserStream(this.uuid).then((res) => {
+        this.loadingStream = false;
+        let f = (i) => {
+          this.$nam.post.getPost(res[i]).then((postcontent) => {
+            Vue.set(this.posts, i, postcontent);
+          });
+        };
+        for (var x = 0; x < res.length; x++) {
+          f(x);
+        }
+      });
+    },
+  },
+  components: {
+    namPage,
+    NamText,
+    NamLoading,
+    NamArea,
+    NamUseractions,
+    NamStreamCard,
+  },
 };
 </script>
 
