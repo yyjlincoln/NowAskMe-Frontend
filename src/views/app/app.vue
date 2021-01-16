@@ -49,16 +49,16 @@
             </template>
             <span class="font-extrabold">My Box</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="post" class="mt-3">
+          <vs-sidebar-item id="stream" class="mt-3">
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
-                @click="$router.push('/post')"
+                @click="$router.push('/stream')"
               >
                 <i class="bx bxs-send mx-auto"></i>
               </div>
             </template>
-            <span class="font-extrabold">Post a new question</span>
+            <span class="font-extrabold">Stream</span>
           </vs-sidebar-item>
           <vs-sidebar-item id="me" class="mt-3">
             <template #icon>

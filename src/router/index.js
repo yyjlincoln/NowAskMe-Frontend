@@ -15,7 +15,7 @@ import friends from '../views/app/friends.vue'
 import box from '../views/app/box.vue'
 import settings from '../views/app/settings.vue'
 import logout from '../views/auth/logout.vue'
-import post from '../views/app/post.vue'
+import stream from '../views/app/stream.vue'
 import friends_add from '../views/app/friends_add.vue'
 import login_qr from '../views/auth/qr.vue'
 import login_password from '../views/auth/password.vue'
@@ -84,10 +84,10 @@ const routes = [
         meta: { title: "Settings" }
       },
       {
-        name: 'post',
-        path: '/post',
-        component: post,
-        meta: { title: "Post a new question" }
+        name: 'stream',
+        path: '/stream',
+        component: stream,
+        meta: { title: "Stream" }
       },
       {
         name: 'friends_add',
