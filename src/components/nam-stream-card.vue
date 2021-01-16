@@ -48,7 +48,10 @@
         </template>
       </nam-user>
       <div class="my-1 flex flex-col text-xl">
-        <p class="whitespace-pre-wrap">{{ post.content }}</p>
+        <component
+          :is="'nam-stream-card-' + post.type"
+          :post="post"
+        ></component>
       </div>
       <div class="flex flex-row">
         <span class="mr-2">Like</span>
@@ -60,9 +63,10 @@
 
 <script>
 import NamUser from "./nam-user.vue";
-
+import NamStreamCardStory from "./nam-stream-card-story.vue";
+import NamStreamCardQuestion from "./nam-stream-card-question.vue";
 export default {
-  components: { NamUser },
+  components: { NamUser, NamStreamCardStory, NamStreamCardQuestion },
   data: () => ({
     user: {
       required: true,
