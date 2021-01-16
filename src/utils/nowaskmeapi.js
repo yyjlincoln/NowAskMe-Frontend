@@ -2,7 +2,7 @@
 import vuesax from "vuesax"
 import axios from "axios"
 import biometrics from "../utils/nowaskme-biometrics.js"
-
+import utils from "../utils/nowaskme-utils.js"
 
 vuesax // Vuesax must be installed.
 
@@ -11,7 +11,7 @@ function GenerateInstall() {
         options
         Vue.prototype.$nam = {
             // server: "http://localhost:5000",
-            version: 'Major-9/1/2021-afternoon',
+            version: 'Major-16/1/2021-night',
             server: "https://apis.nowask.me",
             that: null,
             lastPath: '',
@@ -462,6 +462,34 @@ function GenerateInstall() {
 
 
             },
+            post: {
+                async getStream() {
+                    let res = await Vue.prototype.$nam.requestAPI('/post/get_stream', {
+                        params: {
+                            // TODO Limit
+                        },
+                        no_cache: false,
+                        clear_cache: false
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.stream
+                },
+                async getPost(postid) {
+                    let res = await Vue.prototype.$nam.requestAPI('/post/get_post', {
+                        params: {
+                            postid: postid
+                        },
+                        no_cache: false,
+                        clear_cache: false
+                    })
+                    if (res == undefined || res == null) {
+                        throw new Error('Could not complete the request')
+                    }
+                    return res.post
+                },
+            },
             auth: {
                 async checkEmail(email) {
                     let res = await Vue.prototype.$nam.requestAPI('/auth/check_email', {
@@ -598,7 +626,8 @@ function GenerateInstall() {
                 error(...options) {
                     console.error("[ERROR] ", ...options)
                 }
-            }
+            },
+            utils: utils.init(Vue, options)
         }
         Vue.mixin({
             created() {
