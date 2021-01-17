@@ -45,7 +45,7 @@
           :show_logo="false"
         ></nam-loading>
         <div class="w-full mt-5">
-          <div v-for="post in posts" :key="post.uuid">
+          <div v-for="post in posts" :key="post.postid">
             <div class="w-full">
               <nam-stream-card :post="post"></nam-stream-card>
             </div>
