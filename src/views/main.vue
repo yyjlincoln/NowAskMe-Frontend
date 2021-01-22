@@ -1,16 +1,16 @@
 <template>
   <div>
     <div
-      class="h-screen w-screen flex-col flex justify-center items-center flex overflow-scroll"
+      class="h-screen w-screen flex-col flex justify-center items-center flex overflow-hidden"
     >
       <div
-        class="w-screen h-screen mt-0 absolute"
+        class="h-screen mt-0 absolute left-0 top-0 overflow-hidden"
         style="z-index: -2"
         id="background_animate"
       >
-        <div class="w-screen h-screen bg-white opacity-50 absolute"></div>
+        <div class="w-screen h-screen bg-white left-0 top-0 opacity-50 absolute overflow-hidden"></div>
         <img
-          class="object-cover w-screen h-screen"
+          class="object-cover w-screen h-screen overflow-hidden"
           src="https://images.unsplash.com/photo-1566125882500-87e10f726cdc?ixlib=rb-1.2.1&q=80&fm=jpg&w=1920"
         />
       </div>

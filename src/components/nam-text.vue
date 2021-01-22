@@ -4,7 +4,7 @@
       <span class="font-extrabold" :class="subtitle_config">{{
         subtitle
       }}</span>
-      <span class="font-extrabold text-gradient pb-1" :class="title_config">{{
+      <span class="font-extrabold text-gradient pb-2" :class="title_config">{{
         title
       }}</span>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-5 absolute w-screen left-0 h-fit py-10 px-20 bg-gray-100">
+    <div class="mt-5 w-screen left-0 h-fit py-10 px-20 bg-gray-100">
       <span class="font-bold block text-gray-500 text-2xl">Nowask.me</span>
       <span class="font-bold block text-gray-400 text-xl"
         >This is a HSC Major Work project.</span

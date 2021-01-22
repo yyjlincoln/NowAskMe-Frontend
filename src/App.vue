@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="h-fit w-fit overflow-hidden">
     <transition :name="transition_name" mode="out-in">
       <router-view />
     </transition>
@@ -54,6 +54,10 @@
 }
 .bg-gradient {
   background: linear-gradient(90deg, rgb(78, 70, 229,0.8), rgb(156, 47, 158,0.8));
+}
+
+.app{
+  font-family: 'Helvetica';
 }
 </style>
 

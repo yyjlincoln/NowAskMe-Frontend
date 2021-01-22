@@ -3,7 +3,7 @@
     <div class="flex flex-row">
       <vs-sidebar fixed reduce open>
         <div
-          class="flex flex-col justify-center h-full mt-0 py-10 overflow-scroll"
+          class="flex flex-col justify-center h-full mt-0 py-10 overflow-y-scroll"
         >
           <vs-sidebar-item id="back">
             <template #icon>

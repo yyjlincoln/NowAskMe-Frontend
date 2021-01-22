@@ -11,13 +11,18 @@
                 <span></span>
                 <span>Nowask.me is still under development.</span>
               </nam-area>
-              <nam-area :title="'Diagnostics ⛏'" config_class="max-w-3xl max-h-md">
-                <span class="font-bold">Do not share the following info as others might be able to log in to your account! 😈</span>
-                <span>Connected to: {{$nam.server}}</span>
-                <span>Name: {{$nam.user.name}}</span>
-                <span>UUID: {{$nam.user.uuid}}</span>
-                <span>Token: {{$nam.user.token}}</span>
-
+              <nam-area
+                :title="'Diagnostics ⛏'"
+                config_class="max-w-3xl max-h-md"
+              >
+                <span class="font-bold"
+                  >Do not share the following info as others might be able to
+                  log in to your account! 😈</span
+                >
+                <span>Connected to: {{ $nam.server }}</span>
+                <span>Name: {{ $nam.user.name }}</span>
+                <span>UUID: {{ $nam.user.uuid }}</span>
+                <span>Token: {{ $nam.user.token }}</span>
               </nam-area>
             </div>
           </div>
@@ -35,13 +40,13 @@ import NamPage from "../../components/nam-page.vue";
 import namText from "../../components/nam-text.vue";
 import NamArea from "../../components/nam-area.vue";
 export default {
-  components: { namText, NamPage, NamArea},
+  components: { namText, NamPage, NamArea },
   data: () => ({
     globalTitle: "Loading status...",
   }),
   computed: {},
   mounted() {
-    this.globalTitle = this.randomGreetings() + this.$nam.user.name+" 👋";
+    this.globalTitle = this.randomGreetings() + this.$nam.user.name + "";
   },
   methods: {
     randomGreetings() {

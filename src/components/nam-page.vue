@@ -3,7 +3,7 @@
     <!-- Deleted justify-center -->
     <div
       v-if="global_centered"
-      class="min-h-screen flex flex-col justify-center w-fit h-fit px-10 py-10 mx-auto"
+      class="min-h-screen flex flex-col justify-center w-fit h-fit px-10 py-10 mx-auto overflow-hidden"
       :class="absolute ? 'absolute' : 'relative'"
     >
       <div class="flex flex-col h-full w-full">
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div
-      class="h-hit overflow-scroll w-fit flex min-h-screen flex-col py-10 pt-15"
+      class="h-fit overflow-hidden w-fit flex min-h-screen flex-col py-10 pt-15"
       :class="
         String(unbounded ? '' : 'max-w-6xl') +
         ' ' +
