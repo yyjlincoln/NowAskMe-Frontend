@@ -15,6 +15,7 @@
           :spacing="false"
           background_class=""
           :show_userid="false"
+          :constrains="false"
         >
           <template #aside_name>
             <span class="text-gray-500">Now</span>
