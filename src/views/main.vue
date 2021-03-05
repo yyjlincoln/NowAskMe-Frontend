@@ -253,8 +253,12 @@ export default {
     pwaloading: false,
   }),
   mounted() {
-    console.log(this.$route);
     if (this.$route.query.pwa == "true") {
+      document.addEventListener("contextmenu", (event) =>
+        event.preventDefault()
+      );
+      //I love you lincoln (From matt:))
+      document.body.setAttribute("style", "touch-action: pan-x pan-y;s");
       this.pwaloading = true;
       this.$nam.pwa = true;
       this.$nam.auth.checkLoginStatus().then((status) => {
