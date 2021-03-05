@@ -27,6 +27,7 @@ function GenerateInstall() {
             cache_wait_period: 300,
             initialized: false,
             connected: true,
+            pwa: true,
             async init(that) {
                 if (this.initialized == true) {
                     return
@@ -608,7 +609,6 @@ function GenerateInstall() {
                 },
                 async checkLoginStatus() {
                     try {
-
                         let res = await this.checkScope({
                             handle_error: false
                         })

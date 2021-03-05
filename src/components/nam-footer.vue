@@ -16,7 +16,7 @@
       <a
         class="text-gray-400 underline font-bold text-xl"
         href="/legal"
-        @click.prevent="$router.push('legal')"
+        @click.prevent="$router.push('/legal')"
         >Legal Statements</a
       >
       <a
