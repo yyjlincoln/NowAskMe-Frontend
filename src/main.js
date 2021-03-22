@@ -15,8 +15,10 @@ Vue.use(Vuesax, {
 })
 
 import nowaskmeapi from "./utils/nowaskmeapi.js"
+import config from "./utils/config.js"
 
 Vue.use(nowaskmeapi)
+Vue.use(config)
 
 new Vue({
   router,

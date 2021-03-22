@@ -94,7 +94,7 @@
             </div>
           </div>
         </div>
-        <nam-tools>
+        <nam-tools v-if="$config.getConfig('ui.login.showOtherOptions',false)">
           <div class="flex justify-center md:justify-start">
             <a
               class="rounded-md shadow bg-indigo-600 hover:bg-indigo-700 px-5 py-2 mx-2 my-2"

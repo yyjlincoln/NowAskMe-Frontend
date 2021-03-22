@@ -105,14 +105,12 @@ function GenerateInstall() {
             },
             pullCredentials() {
                 try {
-
                     this.user = {
                         ...this.user, ...JSON.parse(localStorage.getItem("namuser"))
                     }
                 } catch {
                     localStorage.setItem("namuser", "{}")
                 }
-
             },
             sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
