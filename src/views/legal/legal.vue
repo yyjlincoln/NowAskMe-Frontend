@@ -5,7 +5,7 @@
         class="text-2xl font-extrabold font-gray-700"
         @click.prevent="$router.go(-1)"
         href="/"
-        >⬅️ Back</a
+        >← Back</a
       >
       <span class="text-3xl md:text-4xl text-gray-700 font-extrabold py-1"
         >Legal</span

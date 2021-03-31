@@ -90,7 +90,7 @@
           <!-- Bottom learn more -->
           <div class="absolute bottom-10">
             <span class="font-extrabold text-gray-500 relative"
-              >⬇️ Learn more</span
+              >↓ Learn more</span
             >
           </div>
         </div>

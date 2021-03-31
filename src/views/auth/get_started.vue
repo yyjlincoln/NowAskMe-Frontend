@@ -2,6 +2,12 @@
   <div>
     <div>
       <nam-page v-if="!logged_in">
+        <a
+          class="text-2xl font-extrabold font-gray-500"
+          @click.prevent="$router.push('/')"
+          href="/"
+          >← Cancel and go home</a
+        >
         <nam-text
           title="Please enter your email address"
           subtitle="Getting Started"
@@ -87,14 +93,24 @@
                 class="text-base text-gray-700 mt-5 px-3 md:mt-0 sm:mx-auto md:text-xl"
               >
                 By continuing, you agree to our
-                <a class="underline" href="/legal/privacy" @click.prevent="$router.push('/legal/privacy')">Privacy Policy</a>
+                <a
+                  class="underline"
+                  href="/legal/privacy"
+                  @click.prevent="$router.push('/legal/privacy')"
+                  >Privacy Policy</a
+                >
                 and
-                <a class="underline" href="/legal/tos" @click.prevent="$router.push('/legal/tos')">Terms of Service</a>
+                <a
+                  class="underline"
+                  href="/legal/tos"
+                  @click.prevent="$router.push('/legal/tos')"
+                  >Terms of Service</a
+                >
               </p>
             </div>
           </div>
         </div>
-        <nam-tools v-if="$config.getConfig('ui.login.showOtherOptions',false)">
+        <nam-tools v-if="$config.getConfig('ui.login.showOtherOptions', false)">
           <div class="flex justify-center md:justify-start">
             <a
               class="rounded-md shadow bg-indigo-600 hover:bg-indigo-700 px-5 py-2 mx-2 my-2"
@@ -264,9 +280,9 @@ export default {
           email: this.email,
           register: this.register == 0 ? false : true,
         },
-        query:{
-          then: this.$route.query.then
-        }
+        query: {
+          then: this.$route.query.then,
+        },
       });
     },
     async checkLoginStatus() {
@@ -276,7 +292,7 @@ export default {
           "Welcome back!",
           "You're already logged in."
         );
-        setTimeout(() => {          
+        setTimeout(() => {
           this.$router.push("/dashboard");
         }, 1000);
       }
