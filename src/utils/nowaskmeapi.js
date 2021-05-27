@@ -11,7 +11,7 @@ function GenerateInstall() {
         options
         Vue.prototype.$nam = {
             // server: "http://localhost:5000",
-            version: 'Major-19/4/2021-night',
+            version: 'Major-16/1/2021-night',
             server: "https://apis.nowask.me",
             that: null,
             lastPath: '',
@@ -28,6 +28,11 @@ function GenerateInstall() {
             initialized: false,
             connected: true,
             pwa: true,
+            requests: {
+                lastRequest: 0,
+                pending: {},
+                packing: false,
+            },
             async init(that) {
                 if (this.initialized == true) {
                     return
@@ -46,6 +51,90 @@ function GenerateInstall() {
                     no_cache: false,
                     clear_cache: false
                 })
+            },
+            async commitRequest(route, params) {
+                // if(this.undefined==undefined){
+                //     return await axios.get(this.server + route, { params })
+                // }
+
+                // BUG: Index Collision while two batch requests are happening at the same time.
+                console.log('Submitted')
+                // Add a request handler
+                this.connected = true;
+                if (this.requests.packing == true) {
+                    // Packing is activated. Add the request to the list.
+                    let RequestID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                    console.log(RequestID, 'added to the list')
+                    this.requests.pending[RequestID] = { request: { route, data: params }, completed: false, response: null }
+                    while (!this.requests.pending[RequestID].completed) {
+                        await this.sleep(10)
+                    }
+                    // Resolved
+                    let d = {
+                        data: this.requests.pending[RequestID].response
+                    }
+                    console.log(RequestID, 'Resolved')
+                    console.log(RequestID, this.requests.pending[RequestID].completed, this.requests.pending[RequestID], d)
+                    // delete this.requests.pending[RequestID]
+                    return d
+                } else if (Date.now() - this.requests.lastRequest <= 200) {
+
+                    console.log('Start packing')
+                    this.requests.packing = true
+
+                    let RequestID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                    console.log(RequestID, 'added to the list')
+                    this.requests.pending[RequestID] = { request: { route, data: params }, completed: false, response: null }
+
+                    // Start the countdown
+                    setTimeout(async () => {
+                        this.requests.packing = false
+                        // Request batch
+                        var batch = []
+                        for (var x in this.requests.pending) {
+                            batch.push({
+                                route: this.requests.pending[x].request.route,
+                                data: this.requests.pending[x].request.data
+                            })
+                        }
+                        var form = new FormData()
+                        form.append("batch", JSON.stringify(batch))
+                        console.log('Pack sending')
+                        let res = await axios.post(this.server + '/batch', form, {})
+                        console.log('Pack recv')
+                        var index = 0
+                        for (var requestID in this.requests.pending) {
+                            this.requests.pending[requestID].response = res.data.batch[index]
+                            this.requests.pending[requestID].completed = true
+                            // console.log('Toggled completed: for ' + requestID, 'of index', index, 'with response', res.data.batch[index])
+                            index = index + 1
+                        }
+                        this.lastRequest = Date.now()
+                    }, 200);
+
+                    // Now, await for the results to come
+
+                    while (!this.requests.pending[RequestID].completed) {
+                        await this.sleep(10)
+                    }
+                    // Resolved
+                    let d = {
+                        data: this.requests.pending[RequestID].response
+                    }
+                    console.log(RequestID, 'Resolved')
+                    console.log(RequestID, this.requests.pending[RequestID].completed, this.requests.pending[RequestID], d)
+                    if(d=={data: undefined}){
+                        console.warn('UNDEFINED')
+                    }
+                    return d
+
+                } else {
+                    // Direct request
+                    // console.log('direct')
+                    this.requests.lastRequest = Date.now()
+                    return await axios.get(this.server + route, { params })
+                }
+
             },
             async onRouteChange(prev, next) {
                 // console.log('Route changed!', prev, next)
@@ -99,6 +188,7 @@ function GenerateInstall() {
             },
             storeCredentials() {
                 if (this.user != undefined) {
+
                     localStorage.setItem("namuser", JSON.stringify(this.user))
                 }
             },
@@ -195,10 +285,9 @@ function GenerateInstall() {
                 }
                 let res = null
                 try {
-                    res = await axios.get(this.server + route, {
-                        params
-                    })
-                    this.connected = true
+                    res = await this.commitRequest(route, params)
+                    console.log('resolved here', res)
+                    console.log(res.data.post)
                 } catch (e) {
                     this.logging.error(e)
                     if (handle_error == true && max_retry > 0 && current_location == window.location.href) {
@@ -238,11 +327,11 @@ function GenerateInstall() {
                 if (handle_error == true && current_location == window.location.href) {
                     if (res.data.code < 0) {
                         if ([-107, -108, -109].includes(res.data.code) == true) {
-                            this.that.$router.replace({ path: '/get-started', query: { 'then': this.lastPath } })
+                            this.that.$router.push({ path: '/get-started', query: { 'then': this.lastPath } })
                             Vue.prototype.$nam.notification.failed('Please login again (' + String(res.data.code) + ')', res.data.message)
                             // [TODO] Add query so after auth it returns
                         } else if ([-110].includes(res.data.code) == true) {
-                            this.that.$router.replace({ path: '/get-started', query: { 'then': this.lastPath } })
+                            this.that.$router.push({ path: '/get-started', query: { 'then': this.lastPath } })
                             this.notification.failed('Sorry, something unexpected happened. Please try to login again (' + String(res.data.code) + ')', res.data.message)
                         } else if ([-111].includes(res.data.code) == true) {
                             this.notification.failed("Access is denied.", "You don't have sufficient permission to complete this action. You are missing: " + String(res.data.scope))

@@ -99,7 +99,9 @@ export default {
       this.$nam.post.getUserStream(this.uuid).then((res) => {
         this.loadingStream = false;
         let f = (i) => {
+          console.log(i, 'Get Post')
           this.$nam.post.getPost(res[i]).then((postcontent) => {
+            console.log('Post recv')
             Vue.set(this.posts, i, postcontent);
           });
         };
