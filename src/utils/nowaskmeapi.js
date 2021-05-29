@@ -53,9 +53,10 @@ function GenerateInstall() {
                 })
             },
             async commitRequest(route, params) {
-                // if(this.undefined==undefined){
-                //     return await axios.get(this.server + route, { params })
-                // }
+                if(this.undefined==undefined){
+                    // Disable the batch request until the bug is identified and fixed.
+                    return await axios.get(this.server + route, { params })
+                }
 
                 // BUG: Index Collision while two batch requests are happening at the same time.
                 console.log('Submitted')
