@@ -23,7 +23,7 @@
             ></div>
             <img
               class="object-cover w-screen h-screen overflow-hidden"
-              src="https://images.unsplash.com/photo-1566125882500-87e10f726cdc?ixlib=rb-1.2.1&q=80&fm=jpg&w=1920"
+              src="https://static.nowask.me/background.jfif"
             />
           </div>
           <div
