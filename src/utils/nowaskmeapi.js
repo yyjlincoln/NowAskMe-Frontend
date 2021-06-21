@@ -328,11 +328,11 @@ function GenerateInstall() {
                 if (handle_error == true && current_location == window.location.href) {
                     if (res.data.code < 0) {
                         if ([-107, -108, -109].includes(res.data.code) == true) {
-                            this.that.$router.push({ path: '/get-started', query: { 'then': this.lastPath } })
+                            this.that.$router.replace({ path: '/get-started', query: { 'then': this.lastPath } })
                             Vue.prototype.$nam.notification.failed('Please login again (' + String(res.data.code) + ')', res.data.message)
                             // [TODO] Add query so after auth it returns
                         } else if ([-110].includes(res.data.code) == true) {
-                            this.that.$router.push({ path: '/get-started', query: { 'then': this.lastPath } })
+                            this.that.$router.replace({ path: '/get-started', query: { 'then': this.lastPath } })
                             this.notification.failed('Sorry, something unexpected happened. Please try to login again (' + String(res.data.code) + ')', res.data.message)
                         } else if ([-111].includes(res.data.code) == true) {
                             this.notification.failed("Access is denied.", "You don't have sufficient permission to complete this action. You are missing: " + String(res.data.scope))
