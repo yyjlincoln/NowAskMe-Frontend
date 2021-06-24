@@ -59,7 +59,7 @@
             "
             @click.prevent="toggle"
           >
-            {{ status ? "Disenrol" : "enrol" }}
+            {{ status ? "Disenrol" : "Enrol" }}
           </a>
         </div>
         <div>
