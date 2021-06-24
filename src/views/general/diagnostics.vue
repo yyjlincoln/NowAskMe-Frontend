@@ -5,10 +5,25 @@
         class="font-extrabold text-2xl font-gray-700"
         href="/"
         @click.prevent="$router.go(-1)"
-        >⬅️ Back</a
+        >← Back</a
       >
       <nam-text subtitle="Debug" title="Diagnostics"></nam-text>
-      <nam-area class="mt-10" title="General Information" config_class="">
+      <nam-area class="mt-10" title="Beta Information" config_class="">
+        <span
+          ><a class="underline" href="/beta" @click.prevent="$router.push('/beta')"
+            >Enroll / Disenroll from the beta program</a
+          ></span
+        >
+        <span class="mt-3">Running as beta: {{ $config.getConfig("beta", false) }}</span>
+        <span  class="flex flex-col"
+          >
+          <span>Beta Profiles:</span>
+          <span v-for="(val, key) in $config.configs" :key="key"
+            >- {{ key }}: {{ val }}</span
+          >
+        </span>
+      </nam-area>
+      <nam-area title="General Information" config_class="">
         <span>Version: {{ $nam.version }}</span>
         <span>Server: {{ $nam.server }}</span>
         <span>Connectivity: {{ $nam.connected }}</span>

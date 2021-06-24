@@ -27,18 +27,20 @@ function GenerateInstall() {
                 }
                 let res = null
 
-                try{
+                try {
                     res = await axios.get(this.server, {
-                        uuid: this.user.uuid,
-                        token: this.user.token,
-                        version: Vue.prototype.$nam.version
+                        params: {
+                            uuid: this.user.uuid,
+                            token: this.user.token,
+                            version: Vue.prototype.$nam.version
+                        }
                     })
-                } catch(e){
+                } catch (e) {
                     console.error('Could not update config!')
                     return false
                 }
                 // Request the server
-                
+
                 if (res.data.code >= 0) {
                     if (res.data.code != 0) {
                         console.warn(res.data.message)

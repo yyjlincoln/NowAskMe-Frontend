@@ -3,7 +3,14 @@
     <div class="flex flex-row">
       <vs-sidebar fixed reduce open>
         <div
-          class="flex flex-col justify-center h-full mt-0 py-10 overflow-y-scroll"
+          class="
+            flex flex-col
+            justify-center
+            h-full
+            mt-0
+            py-10
+            overflow-y-scroll
+          "
         >
           <vs-sidebar-item id="back">
             <template #icon>
@@ -16,7 +23,11 @@
             </template>
             <span class="font-extrabold">Back</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="dashboard" class="mt-10">
+          <vs-sidebar-item
+            id="dashboard"
+            class="mt-10"
+            v-if="$config.getConfig('ui.showDashboard', true)"
+          >
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
@@ -27,7 +38,11 @@
             </template>
             <span class="font-extrabold">Dashboard</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="friends" class="mt-3">
+          <vs-sidebar-item
+            id="friends"
+            class="mt-3"
+            v-if="$config.getConfig('ui.showFriends', true)"
+          >
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
@@ -38,7 +53,11 @@
             </template>
             <span class="font-extrabold">Friends</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="box" class="mt-3">
+          <vs-sidebar-item
+            id="box"
+            class="mt-3"
+            v-if="$config.getConfig('ui.showBox', false)"
+          >
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
@@ -49,7 +68,11 @@
             </template>
             <span class="font-extrabold">My Box</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="stream" class="mt-3">
+          <vs-sidebar-item
+            id="stream"
+            class="mt-3"
+            v-if="$config.getConfig('ui.showStream', true)"
+          >
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
@@ -60,7 +83,11 @@
             </template>
             <span class="font-extrabold">Stream</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="me" class="mt-3">
+          <vs-sidebar-item
+            id="me"
+            class="mt-3"
+            v-if="$config.getConfig('ui.showMe', true)"
+          >
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
@@ -71,7 +98,11 @@
             </template>
             <span class="font-extrabold">My Profile</span>
           </vs-sidebar-item>
-          <vs-sidebar-item id="settings" class="mt-3">
+          <vs-sidebar-item
+            id="settings"
+            class="mt-3"
+            v-if="$config.getConfig('ui.showSettings', false)"
+          >
             <template #icon>
               <div
                 class="w-full h-full flex flex-col justify-center"
@@ -110,8 +141,7 @@
 import namFooter from "../../components/nam-footer.vue";
 export default {
   components: { namFooter },
-  mounted(){
-  }
+  mounted() {},
 };
 </script>
 

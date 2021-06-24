@@ -111,7 +111,7 @@
           </div>
         </div>
         <nam-tools v-if="$config.getConfig('ui.login.showOtherOptions', false)">
-          <div class="flex justify-center md:justify-start">
+          <div class="flex justify-center md:justify-start" v-if="$config.getConfig('ui.login.showPasswordOption', false)">
             <a
               class="rounded-md shadow bg-indigo-600 hover:bg-indigo-700 px-5 py-2 mx-2 my-2"
               href="/login/password"
@@ -138,7 +138,7 @@
               </div>
             </a>
           </div>
-          <div class="flex justify-center md:justify-start">
+          <div class="flex justify-center md:justify-start" v-if="$config.getConfig('ui.login.showQROption', false)">
             <a
               class="rounded-md shadow bg-indigo-600 hover:bg-indigo-700 px-5 py-2 mx-2 my-2"
               href="/login/qr"
@@ -164,6 +164,9 @@
                 <span class="text-lg md:text-xl text-white">Use QR Code</span>
               </div>
             </a>
+          </div>
+          <div v-if="!$config.getConfig('ui.login.showPasswordOption', false) && !$config.getConfig('ui.login.showQROption', false)">
+            <span class="text-xl text-gray-400 font-bold">Some options may only be available to Beta testers. Learn how to enroll <a href="#" @click.prevent="enrollBeta" class="underline">here</a></span>
           </div>
         </nam-tools>
       </nam-page>
@@ -293,10 +296,13 @@ export default {
           "You're already logged in."
         );
         setTimeout(() => {
-          this.$router.push("/dashboard");
+          this.$router.replace("/dashboard");
         }, 1000);
       }
     },
+    async enrollBeta(){
+      this.$router.push('/beta')
+    }
   },
 };
 </script>

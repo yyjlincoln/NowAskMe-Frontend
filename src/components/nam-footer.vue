@@ -25,6 +25,12 @@
         @click.prevent="$router.push('/diagnostics')"
         >Diagnostics</a
       >
+      <a
+        class="text-gray-400 underline font-bold text-xl ml-3"
+        href="/beta"
+        @click.prevent="$router.push('/beta')"
+        >Beta Program</a
+      >
     </div>
   </div>
 </template>

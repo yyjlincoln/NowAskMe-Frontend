@@ -10,8 +10,8 @@ function GenerateInstall() {
     return function (Vue, options) {
         options
         Vue.prototype.$nam = {
-            // server: "http://localhost:5000",
-            version: 'Major-16/1/2021-night',
+            // server: "http://127.0.0.1:5001",
+            version: 'Final-24/6/2021-night',
             server: "https://apis.nowask.me",
             that: null,
             lastPath: '',
@@ -53,7 +53,7 @@ function GenerateInstall() {
                 })
             },
             async commitRequest(route, params) {
-                if(this.undefined==undefined){
+                if (this.undefined == undefined) {
                     // Disable the batch request until the bug is identified and fixed.
                     return await axios.get(this.server + route, { params })
                 }
@@ -124,7 +124,7 @@ function GenerateInstall() {
                     }
                     console.log(RequestID, 'Resolved')
                     console.log(RequestID, this.requests.pending[RequestID].completed, this.requests.pending[RequestID], d)
-                    if(d=={data: undefined}){
+                    if (d == { data: undefined }) {
                         console.warn('UNDEFINED')
                     }
                     return d
@@ -147,7 +147,9 @@ function GenerateInstall() {
                     '^/verification$',
                     '^/login/*',
                     '^/legal/*',
-                    '^/local/*'
+                    '^/local/*',
+                    '^/diagnostics$',
+                    '^/beta/*'
                     // RegExp: ^ - Nothing before; $ - Nothing after.
                 ]
                 for (var i = 0; i < authentication_free.length; i++) {
@@ -184,7 +186,7 @@ function GenerateInstall() {
                         this.lastPath = that.$route.path
                     }
                 } catch {
-                    // Not handelling
+                    // Not handling
                 }
             },
             storeCredentials() {
@@ -303,6 +305,7 @@ function GenerateInstall() {
                         })
                     } else {
                         this.notification.failed('Check your internet connection', 'We could not contact our server due to an internet issue (' + String(e) + ')')
+                        this.app.showGlobalError("We could not connect to the server","You may be offline. Please check your internet connection, then press ignore or reload the application.")
                         this.connected = false
                     }
                     return undefined
@@ -765,7 +768,26 @@ function GenerateInstall() {
                     console.error("[ERROR] ", ...options)
                 }
             },
-            utils: utils.init(Vue, options)
+            utils: utils.init(Vue, options),
+            app: {
+                _app: null,
+                registerApp(app) {
+                    this._app = app
+                    return true
+                },
+                async showGlobalError(title, message, ignorable) {
+                    if (this._app == null) {
+                        return false
+                    }
+                    this._app.error = true
+                    this._app.error = true
+                    this._app.status = message
+                    this._app.title = title
+                    this._app.ignorable = ignorable
+                    this._app.loading = true
+                    return true
+                },
+            }
         }
         Vue.mixin({
             created() {

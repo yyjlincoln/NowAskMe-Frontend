@@ -23,8 +23,8 @@
           <nam-area :title="title" config_class="">
             <span class="text-xl font-bold">{{ status }}</span>
           </nam-area>
-          <div v-if="ignorable" class="flex flex-row">
-            <div class="rounded-md shadow flex">
+          <div class="flex flex-row">
+            <div class="rounded-md shadow flex mx-3">
               <a
                 href="#"
                 class="
@@ -47,6 +47,31 @@
                 @click.prevent="ignore"
               >
                 Ignore
+              </a>
+            </div>
+            <div class="rounded-md shadow flex mx-3">
+              <a
+                href="#"
+                class="
+                  flex
+                  items-center
+                  justify-center
+                  px-8
+                  py-3
+                  text-base
+                  font-medium
+                  rounded-md
+                  text-white
+                  bg-indigo-600
+                  hover:bg-indigo-700
+                  active:bg-indigo-800
+                  md:py-4
+                  md:text-lg
+                  md:px-10
+                "
+                @click.prevent="reload"
+              >
+                Reload
               </a>
             </div>
           </div>
@@ -144,6 +169,8 @@ export default {
     // },
   },
   async mounted() {
+    // Register app to NAMapi.
+    this.$nam.app.registerApp(this);
     // Load
     this.status = "Loading user configuration...";
     let configUpdated = await this.$config.updateConfig();
@@ -162,6 +189,9 @@ export default {
     ignore() {
       this.error = false;
       this.loading = false;
+    },
+    reload() {
+      location.reload();
     },
   },
 };

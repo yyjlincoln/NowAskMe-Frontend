@@ -22,6 +22,7 @@ import login_password from '../views/auth/password.vue'
 import user_profile from '../views/user/profile.vue'
 import licenses from '../views/legal/licenses.vue'
 import me from '../views/app/me.vue'
+import beta from '../views/beta/beta.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -150,6 +151,12 @@ const routes = [
     component: diagnostics,
     meta: { title: "Diagnostics" }
 
+  },
+  {
+    path: '/beta',
+    name: 'beta',
+    component: beta,
+    meta: { title: "Beta Testing" }
   },
   {
     path: '*',
