@@ -29,6 +29,7 @@
       <div>
         <!-- Q&A Section -->
         <nam-loading
+          v-if="$config.getConfig('ui.profile.showQA', false)"
           class="mt-10"
           :as_full_page="false"
           :show_logo="false"
@@ -51,7 +52,7 @@
             </div>
           </div>
         </div>
-        <span v-if="posts.length==0" class="text-center text-gray-700">
+        <span v-if="posts.length == 0" class="text-center text-gray-700">
           Oops. We couldn't find any activity.
         </span>
       </div>
@@ -99,9 +100,9 @@ export default {
       this.$nam.post.getUserStream(this.uuid).then((res) => {
         this.loadingStream = false;
         let f = (i) => {
-          console.log(i, 'Get Post')
+          console.log(i, "Get Post");
           this.$nam.post.getPost(res[i]).then((postcontent) => {
-            console.log('Post recv')
+            console.log("Post recv");
             Vue.set(this.posts, i, postcontent);
           });
         };
