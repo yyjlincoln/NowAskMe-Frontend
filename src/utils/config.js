@@ -16,7 +16,7 @@ function GenerateInstall() {
                     return defaults
                 }
             },
-            updateConfig() {
+            async updateConfig() {
                 // Update user credentials
                 try {
                     this.user = {
@@ -25,26 +25,32 @@ function GenerateInstall() {
                 } catch {
                     localStorage.setItem("namuser", "{}")
                 }
+                let res = null
+
+                try{
+                    res = await axios.get(this.server, {
+                        uuid: this.user.uuid,
+                        token: this.user.token,
+                        version: Vue.prototype.$nam.version
+                    })
+                } catch(e){
+                    console.error('Could not update config!')
+                    return false
+                }
                 // Request the server
-                axios.get(this.server, {
-                    uuid: this.user.uuid,
-                    token: this.user.token,
-                    version: Vue.prototype.$nam.version
-                }).then((res) => {
-                    if (res.data.code >= 0) {
-                        if (res.data.code != 0) {
-                            console.warn(res.data.message)
-                        }
-                        this.configs = res.data.config
-                    } else {
-                        console.error("Failed to update config: server returned with code " + res.data.code)
+                
+                if (res.data.code >= 0) {
+                    if (res.data.code != 0) {
+                        console.warn(res.data.message)
                     }
-                }).catch((e) => {
-                    console.error("Failed to fetch config: ", e)
-                })
+                    this.configs = res.data.config
+                } else {
+                    console.error("Failed to update config: server returned with code " + res.data.code)
+                }
+                return true
             }
         }
-        Vue.prototype.$config.updateConfig()
+        // Vue.prototype.$config.updateConfig()
     }
 }
 
