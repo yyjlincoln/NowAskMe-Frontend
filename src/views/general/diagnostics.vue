@@ -11,7 +11,7 @@
       <nam-area class="mt-10" title="Beta Information" config_class="">
         <span
           ><a class="underline" href="/beta" @click.prevent="$router.push('/beta')"
-            >Enroll / Disenroll from the beta program</a
+            >enrol / Disenrol from the beta program</a
           ></span
         >
         <span class="mt-3">Running as beta: {{ $config.getConfig("beta", false) }}</span>

@@ -166,7 +166,7 @@
             </a>
           </div>
           <div v-if="!$config.getConfig('ui.login.showPasswordOption', false) && !$config.getConfig('ui.login.showQROption', false)">
-            <span class="text-xl text-gray-400 font-bold">Some options may only be available to Beta testers. Learn how to enroll <a href="#" @click.prevent="enrollBeta" class="underline">here</a></span>
+            <span class="text-xl text-gray-400 font-bold">Some options may only be available to Beta testers. Learn how to enrol <a href="#" @click.prevent="enrolBeta" class="underline">here</a></span>
           </div>
         </nam-tools>
       </nam-page>
@@ -300,7 +300,7 @@ export default {
         }, 1000);
       }
     },
-    async enrollBeta(){
+    async enrolBeta(){
       this.$router.push('/beta')
     }
   },

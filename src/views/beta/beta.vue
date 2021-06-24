@@ -31,7 +31,7 @@
         >
         <span class="mt-10 text-xl font-bold"
           >I've read and understood the above conditions, and I'm ready to
-          enroll/disenroll.</span
+          enrol/disenrol.</span
         >
       </div>
     </nam-area>
@@ -59,12 +59,12 @@
             "
             @click.prevent="toggle"
           >
-            {{ status ? "Disenroll" : "Enroll" }}
+            {{ status ? "Disenrol" : "enrol" }}
           </a>
         </div>
         <div>
           <span class="text-red-500 font-bold" v-if="!loggedIn"
-            >Please log in to enroll/disenroll.</span
+            >Please log in to enrol/disenrol.</span
           >
         </div>
       </div>
