@@ -69,6 +69,12 @@
         </div>
       </div>
     </div>
+    <div class="mt-10 flex flex-col">
+      <span>Currently applied policies: (this will update after page changes)</span>
+      <span v-for="(val, key) in $config.configs" :key="key"
+        >- {{ key }}: {{ val }}</span
+      >
+    </div>
   </nam-page>
 </template>
 
@@ -104,7 +110,7 @@ export default {
           this.status = (
             await this.$nam.requestAPI("/user/get_beta", {})
           ).status;
-          this.$config.updateConfig()
+          this.$config.updateConfig();
         });
     },
   },
