@@ -34,7 +34,7 @@ export default {
   data: () => ({
     loaded: false,
     license: "Loading...",
-    licenseURL: "https://static.nowask.me/license.txt",
+    licenseURL: "https://yyjlincoln-public-assets.nyc3.cdn.digitaloceanspaces.com/license.txt",
   }),
   mounted() {
     axios.get(this.licenseURL).then((res) => {
