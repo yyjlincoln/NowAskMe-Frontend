@@ -23,7 +23,7 @@
             ></div>
             <img
               class="object-cover w-screen h-screen overflow-hidden"
-              src="https://yyjlincoln-public-assets.nyc3.cdn.digitaloceanspaces.com/background.jfif"
+              src="https://static.yyjlincoln.com/background.jfif"
             />
           </div>
           <div
